@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "portfolio"
+version = "1.0.0"
+description = "Portfolio website with FastAPI backend"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "fastapi==0.103.2",
+    "uvicorn[standard]==0.23.2",
+    "django==4.2.10",
+    "djangorestframework==3.14.0",
+    "python-dotenv==1.0.0",
+    "twilio==8.10.0",
+    "aiosmtplib==2.1.1",
+    "pydantic==2.4.2",
+    "email-validator==2.1.0",
+    "gunicorn==21.2.0",
+]
