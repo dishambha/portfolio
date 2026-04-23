@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: portfolio
+    runtime: python-3.11
+    buildCommand: pip install -r portfolio_backend/requirements.txt
+    startCommand: cd portfolio_backend && uvicorn main:app --host 0.0.0.0 --port 8000
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
