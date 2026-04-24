@@ -1,709 +1,2631 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Dishambha Awasthi | Software Engineer</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#f0f2ee;--bg2:#e8ece4;--bg3:#dde3d8;
-  --p1:#3a5a40;--p2:#588157;--p3:#a3b18a;
-  --a1:#344e41;--a2:#588157;
-  --text:#1e2d22;--text2:#3a5a40;--text3:#588157;
-  --muted:#7a9070;--faint:#c8d4c0;
-  --border:#c2ceba;--card:#ffffff;
-  --green:#3a5a40;--amber:#8a7240;
-  --rust:#7a4f35;--sky:#3d6b72;--lilac:#5c527a;
-}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;overflow-x:hidden}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--bg2)}
-::-webkit-scrollbar-thumb{background:var(--p2);border-radius:3px}
-
-/* NAV */
-nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(240,242,238,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem}
-.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px}
-.logo{font-size:1.1rem;font-weight:800;color:var(--p1);letter-spacing:.5px}
-.logo span{color:var(--p2)}
-.nav-links{display:flex;gap:1.75rem;list-style:none}
-.nav-links a{color:var(--text2);text-decoration:none;font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;transition:color .2s;font-weight:600}
-.nav-links a:hover{color:var(--p1)}
-.hire-btn{padding:.42rem 1.2rem;border-radius:6px;font-size:.8rem;font-weight:700;text-decoration:none;background:var(--p1);color:#f0f2ee;transition:all .2s}
-.hire-btn:hover{background:var(--a1);transform:translateY(-1px)}
-
-/* HERO */
-#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:7rem 2rem 4rem;position:relative;overflow:hidden;background:linear-gradient(160deg,#e8ece4 0%,#dde3d8 40%,#d0d9c8 100%)}
-.hero-blobs{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35}
-.b1{width:500px;height:500px;background:#a3b18a;top:-100px;left:-150px}
-.b2{width:400px;height:400px;background:#588157;bottom:-80px;right:-100px}
-.b3{width:300px;height:300px;background:#dad7cd;top:40%;left:60%}
-.grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(58,90,64,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(58,90,64,.06) 1px,transparent 1px);background-size:48px 48px}
-.hero-content{position:relative;z-index:1;max-width:900px;text-align:center}
-.status-pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(58,90,64,.1);border:1px solid rgba(58,90,64,.25);color:var(--p1);font-size:.78rem;padding:.35rem 1rem;border-radius:999px;margin-bottom:1.75rem;letter-spacing:.5px;font-weight:600}
-.status-dot{width:7px;height:7px;border-radius:50%;background:var(--p2);animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(88,129,87,.5)}50%{box-shadow:0 0 0 7px rgba(88,129,87,0)}}
-h1.hero-name{font-size:clamp(2.8rem,7vw,5.5rem);font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:.5rem;color:var(--a1)}
-.grad-text{background:linear-gradient(135deg,#344e41 0%,#588157 50%,#3a5a40 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:clamp(.85rem,1.8vw,1.05rem);color:var(--muted);margin-bottom:.5rem;letter-spacing:2px;text-transform:uppercase;font-weight:600}
-.hero-role{font-size:clamp(1rem,2.5vw,1.35rem);color:var(--p2);margin-bottom:1.25rem;min-height:2.2rem;font-weight:600}
-#typed{border-right:2px solid var(--p2);padding-right:3px;animation:blink .7s step-end infinite}
-@keyframes blink{50%{border-color:transparent}}
-.hero-desc{font-size:.97rem;color:var(--text2);max-width:640px;margin:0 auto 2.5rem;line-height:1.85}
-.hero-btns{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem}
-.btn{padding:.72rem 1.6rem;border-radius:8px;font-size:.875rem;font-weight:700;text-decoration:none;cursor:pointer;transition:all .25s;letter-spacing:.3px;border:none;display:inline-flex;align-items:center;gap:.4rem}
-.btn-solid{background:var(--p1);color:#f0f2ee}
-.btn-solid:hover{background:var(--a1);transform:translateY(-2px);box-shadow:0 8px 20px rgba(58,90,64,.25)}
-.btn-outline{background:transparent;border:1.5px solid var(--p2);color:var(--p1)}
-.btn-outline:hover{background:var(--p2);color:#f0f2ee;transform:translateY(-2px)}
-.hero-stats{display:flex;justify-content:center;flex-wrap:wrap;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.7);backdrop-filter:blur(8px)}
-.stat-box{padding:1.25rem 2rem;text-align:center;border-right:1px solid var(--border);flex:1;min-width:110px}
-.stat-box:last-child{border:none}
-.stat-n{font-size:1.9rem;font-weight:900;color:var(--p1)}
-.stat-l{font-size:.68rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:.15rem}
-
-/* SECTIONS */
-section{padding:5.5rem 2rem;position:relative}
-.sec-wrap{max-width:1200px;margin:0 auto}
-.sec-eyebrow{font-size:.68rem;color:var(--p2);letter-spacing:3px;text-transform:uppercase;margin-bottom:.5rem;font-weight:700}
-.sec-title{font-size:clamp(1.7rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-1px;margin-bottom:.5rem;color:var(--a1)}
-.bar{width:48px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--p1),var(--p3));margin-bottom:3rem}
-
-/* ABOUT */
-#about{background:var(--bg2)}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
-.about-text p{color:var(--text2);line-height:1.9;margin-bottom:1rem;font-size:.93rem}
-.hl{color:var(--p1);font-weight:700}
-.about-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
-.link-chip{display:flex;align-items:center;gap:.4rem;padding:.38rem .9rem;border-radius:6px;border:1.5px solid var(--border);color:var(--text2);text-decoration:none;font-size:.78rem;transition:all .2s;background:white;font-weight:600}
-.link-chip:hover{border-color:var(--p1);color:var(--p1);background:rgba(58,90,64,.05)}
-.about-card{background:white;border:1.5px solid var(--border);border-radius:14px;padding:1.5rem;position:relative;overflow:hidden;box-shadow:0 2px 16px rgba(58,90,64,.07)}
-.about-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--p1),var(--p3))}
-.info-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--bg3);font-size:.84rem}
-.info-row:last-child{border:none}
-.ik{color:var(--muted);font-size:.75rem;letter-spacing:.5px;font-weight:600}
-.iv{color:var(--text);font-weight:600;text-align:right}
-.iv a{color:var(--p2);text-decoration:none}
-.iv a:hover{color:var(--p1)}
-.open-tag{color:var(--green);font-weight:700}
-
-/* SKILLS */
-#skills{background:var(--bg)}
-.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
-.skill-cats{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;width:100%}
-.skill-card{background:white;border:1.5px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;transition:border-color .2s,box-shadow .2s;width:100%;box-shadow:0 1px 8px rgba(58,90,64,.06)}
-.skill-card:hover{border-color:var(--p2);box-shadow:0 4px 16px rgba(58,90,64,.12)}
-.sk-cat{font-size:.67rem;color:var(--p2);letter-spacing:2px;text-transform:uppercase;margin-bottom:.65rem;font-weight:700}
-.tags{display:flex;flex-wrap:wrap;gap:.3rem}
-.tag{padding:.22rem .65rem;border-radius:5px;font-size:.73rem;font-weight:600}
-.tp{background:#e8f0e4;color:#2d4a33;border:1px solid #c2d4bb}
-.tc{background:#e4ede8;color:#2a4a38;border:1px solid #b8d0c2}
-.tg{background:#eaf2e4;color:#3a6040;border:1px solid #c0d8b8}
-.ta{background:#f0ece0;color:#5a4820;border:1px solid #d8cca0}
-.tb{background:#e4ecf0;color:#1e4a5a;border:1px solid #b0ccd8}
-.tr{background:#f0e8ec;color:#5a2a3a;border:1px solid #d8b0bc}
-.chart-box{background:white;border:1.5px solid var(--border);border-radius:14px;padding:1.5rem;box-shadow:0 2px 16px rgba(58,90,64,.07)}
-.chart-title{font-size:.75rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem;text-align:center;font-weight:600}
-
-/* PROJECTS */
-#projects{background:var(--bg2)}
-.proj-filter{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem}
-.filt{padding:.32rem .9rem;border-radius:6px;border:1.5px solid var(--border);background:white;color:var(--text2);font-size:.76rem;cursor:pointer;transition:all .2s;font-family:inherit;font-weight:600}
-.filt.active,.filt:hover{background:var(--p1);border-color:var(--p1);color:#f0f2ee}
-.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.3rem}
-.proj-card{background:white;border:1.5px solid var(--border);border-radius:14px;padding:1.35rem;display:flex;flex-direction:column;gap:.8rem;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative;overflow:hidden;box-shadow:0 2px 10px rgba(58,90,64,.06)}
-.proj-card:hover{border-color:var(--p2);transform:translateY(-4px);box-shadow:0 8px 28px rgba(58,90,64,.14)}
-.proj-header{display:flex;justify-content:space-between;align-items:flex-start}
-.proj-icon-wrap{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.proj-links{display:flex;gap:.4rem}
-.proj-link{width:28px;height:28px;border-radius:6px;border:1.5px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--muted);font-size:.8rem;transition:all .2s}
-.proj-link:hover{border-color:var(--p1);color:var(--p1);background:rgba(58,90,64,.05)}
-.proj-link.disabled{opacity:.3;pointer-events:none}
-.proj-title{font-size:.97rem;font-weight:700;color:var(--a1)}
-.proj-desc{font-size:.82rem;color:var(--text2);line-height:1.7}
-.proj-bullets{list-style:none;display:flex;flex-direction:column;gap:.32rem}
-.proj-bullets li{font-size:.79rem;color:var(--text2);padding-left:.9rem;position:relative;line-height:1.6}
-.proj-bullets li::before{content:'▸';position:absolute;left:0;color:var(--p2);font-size:.72rem}
-.proj-tags{display:flex;flex-wrap:wrap;gap:.28rem;margin-top:auto}
-.ptag{padding:.16rem .55rem;border-radius:4px;font-size:.69rem;background:#e8f0e4;color:#2d4a33;border:1px solid #c2d4bb;font-weight:600}
-.proj-badge{position:absolute;top:.8rem;right:.8rem;font-size:.58rem;padding:.18rem .5rem;border-radius:4px;letter-spacing:.5px;text-transform:uppercase;font-weight:700}
-.badge-ml{background:#e8e4f0;color:#3a2a5a}
-.badge-da{background:#e4f0e8;color:#1a4a2a}
-.badge-bi{background:#f0ece0;color:#4a3a10}
-.badge-ai{background:#f0e8e4;color:#4a2010}
-.badge-web{background:#e4ecf0;color:#1a3a4a}
-.badge-api{background:#e8f0ea;color:#1a4030}
-
-/* LEETCODE */
-#leetcode{background:var(--bg)}
-.leet-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
-.leet-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.25rem}
-.leet-stat{background:white;border:1.5px solid var(--border);border-radius:12px;padding:1.1rem;text-align:center;box-shadow:0 1px 8px rgba(58,90,64,.06)}
-.leet-n{font-size:1.6rem;font-weight:900}
-.leet-e{color:#3a7040}.leet-m{color:#8a6820}.leet-h{color:#7a2a2a}
-.leet-label{font-size:.68rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-top:.2rem;font-weight:600}
-.leet-total{background:white;border:1.5px solid var(--p2);border-radius:12px;padding:1.1rem;text-align:center;margin-bottom:1.25rem;box-shadow:0 2px 12px rgba(88,129,87,.12)}
-.leet-total-n{font-size:2.4rem;font-weight:900;color:var(--p1)}
-.skill-section{margin-bottom:1rem}
-.skill-section-title{font-size:.67rem;color:var(--p2);letter-spacing:2px;text-transform:uppercase;margin-bottom:.55rem;font-weight:700}
-.skill-pills{display:flex;flex-wrap:wrap;gap:.32rem}
-.skill-pill{padding:.2rem .65rem;border-radius:999px;font-size:.71rem;font-weight:600}
-.sp-adv{background:#f0e8e4;color:#5a2a20;border:1px solid #d4b0a4}
-.sp-int{background:#f0ece0;color:#4a3810;border:1px solid #d4c890}
-.sp-fun{background:#e8f0e4;color:#2a4820;border:1px solid #b8d0b0}
-.leet-cta{display:inline-flex;align-items:center;gap:.5rem;margin-top:.75rem;padding:.52rem 1.1rem;border-radius:7px;border:1.5px solid var(--p2);color:var(--p1);text-decoration:none;font-size:.8rem;font-weight:600;background:rgba(88,129,87,.06);transition:all .2s}
-.leet-cta:hover{background:var(--p2);color:#f0f2ee}
-.chart-wrap{background:white;border:1.5px solid var(--border);border-radius:14px;padding:1.5rem;box-shadow:0 2px 16px rgba(58,90,64,.07)}
-
-/* EXPERIENCE */
-#experience{background:var(--bg2)}
-.tl{display:flex;flex-direction:column}
-.tl-item{display:grid;grid-template-columns:130px 24px 1fr;gap:0 1.25rem;padding-bottom:2.2rem}
-.tl-date{text-align:right;padding-top:.2rem}
-.tl-d{font-size:.73rem;color:var(--muted);font-weight:700;letter-spacing:.5px}
-.tl-spine{display:flex;flex-direction:column;align-items:center}
-.tl-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--p2);background:var(--bg);flex-shrink:0;margin-top:.2rem;z-index:1}
-.tl-dot.hl{background:var(--p1);border-color:var(--p1);box-shadow:0 0 10px rgba(58,90,64,.4)}
-.tl-line-v{width:1px;flex:1;background:var(--border);margin:4px 0}
-.tl-body{padding-top:.1rem}
-.tl-title{font-size:.92rem;font-weight:700;color:var(--a1);margin-bottom:.1rem}
-.tl-org{font-size:.77rem;color:var(--p2);margin-bottom:.38rem;font-weight:600}
-.tl-desc{font-size:.81rem;color:var(--text2);line-height:1.7}
-.tl-tag{display:inline-block;margin-top:.4rem;font-size:.66rem;padding:.16rem .55rem;border-radius:4px;font-weight:700;letter-spacing:.5px}
-.tag-intern{background:#e4f0e8;color:#1a4030;border:1px solid #b8d4c0}
-.tag-lead{background:#ece8f0;color:#3a2a5a;border:1px solid #c8b8d8}
-.tag-hack{background:#f0e8e4;color:#4a2010;border:1px solid #d4b0a0}
-.tag-top{background:#f0ece0;color:#4a3010;border:1px solid #d4c890}
-
-/* ACHIEVEMENTS */
-#achievements{background:var(--bg)}
-.ach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
-.ach-card{background:white;border:1.5px solid var(--border);border-radius:12px;padding:1.15rem;display:flex;gap:.85rem;align-items:flex-start;transition:border-color .2s,transform .2s,box-shadow .2s;box-shadow:0 1px 8px rgba(58,90,64,.06)}
-.ach-card:hover{border-color:var(--p2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(58,90,64,.12)}
-.ach-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0;background:#e8f0e4;border:1.5px solid #c2d4bb}
-.ach-t{font-size:.86rem;font-weight:700;color:var(--a1);margin-bottom:.18rem}
-.ach-s{font-size:.75rem;color:var(--text2);line-height:1.6}
-
-/* CONTACT */
-#contact{background:var(--bg2)}
-.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
-.contact-info h3{font-size:1.6rem;font-weight:800;margin-bottom:.7rem;color:var(--a1)}
-.contact-info p{color:var(--text2);font-size:.9rem;line-height:1.85;margin-bottom:1.2rem}
-.contact-socials{display:flex;flex-direction:column;gap:.55rem}
-.soc-link{display:flex;align-items:center;gap:.75rem;padding:.6rem .95rem;border-radius:8px;border:1.5px solid var(--border);color:var(--text2);text-decoration:none;font-size:.83rem;background:white;transition:all .2s;box-shadow:0 1px 6px rgba(58,90,64,.05)}
-.soc-link:hover{border-color:var(--p1);color:var(--p1);box-shadow:0 4px 14px rgba(58,90,64,.12)}
-.soc-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.soc-icon svg{width:15px;height:15px;fill:currentColor}
-.soc-label{flex:1}
-.soc-arrow{color:var(--muted);font-size:.72rem}
-.contact-form{background:white;border:1.5px solid var(--border);border-radius:14px;padding:1.85rem;position:relative;overflow:hidden;box-shadow:0 2px 16px rgba(58,90,64,.08)}
-.contact-form::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--p1),var(--p3))}
-.form-title{font-size:.97rem;font-weight:700;color:var(--a1);margin-bottom:1.2rem}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
-.form-group{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.85rem}
-.form-group label{font-size:.72rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;font-weight:600}
-.form-group input,.form-group textarea,.form-group select{background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:.6rem .8rem;color:var(--text);font-size:.86rem;font-family:inherit;transition:border-color .2s;width:100%;resize:none}
-.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--p2);background:white}
-.form-group select option{background:white}
-.submit-btn{width:100%;padding:.82rem;border-radius:8px;border:none;background:var(--p1);color:#f0f2ee;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .25s;letter-spacing:.5px;font-family:inherit}
-.submit-btn:hover{background:var(--a1);transform:translateY(-1px);box-shadow:0 6px 18px rgba(58,90,64,.25)}
-.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.form-msg{margin-top:.7rem;padding:.6rem .9rem;border-radius:7px;font-size:.8rem;text-align:center;display:none}
-.form-msg.ok{background:#e4f0e8;border:1px solid #b8d4c0;color:#1a4030;display:block}
-.form-msg.err{background:#f0e8e4;border:1px solid #d4b0a0;color:#5a2010;display:block}
-
-footer{background:var(--p1);padding:1.4rem 2rem;text-align:center}
-.foot-txt{font-size:.76rem;color:rgba(240,242,238,.7)}
-.foot-txt span{color:#dad7cd;font-weight:600}
-
-.fi{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
-.fi.vis{opacity:1;transform:none}
-
-@media(max-width:768px){
-  .about-grid,.skills-layout,.leet-layout,.contact-layout{grid-template-columns:1fr}
-  .skill-cats{grid-template-columns:1fr}
-  .form-row{grid-template-columns:1fr}
-  .nav-links{display:none}
-  .stat-box{padding:.9rem .8rem}
-  .tl-item{grid-template-columns:72px 20px 1fr}
-}
-</style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <div class="logo">dishambha<span>.dev</span></div>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#leetcode">LeetCode</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="#contact" class="hire-btn">Hire Me</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-blobs">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-  </div>
-  <div class="grid-lines"></div>
-  <div class="hero-content fi">
-    <div class="status-pill">
-      <span class="status-dot"></span>
-      Open to Opportunities · B.Tech CSE 2026 · BBDU Lucknow
-    </div>
-    <h1 class="hero-name"><span class="grad-text">Dishambha Awasthi</span></h1>
-    <div class="hero-sub">Software Engineer</div>
-    <div class="hero-role"><span id="typed"></span></div>
-    <p class="hero-desc">Final-year B.Tech CSE student passionate about transforming raw data into powerful insights. I build ML models, interactive dashboards, scalable APIs, and AI-powered tools that solve real-world problems.</p>
-    <div class="hero-btns">
-      <a href="#projects" class="btn btn-solid">View Projects ↓</a>
-      <a href="https://github.com/dishambha" target="_blank" class="btn btn-outline">GitHub</a>
-      <a href="https://leetcode.com/u/dishambha_awasthi/" target="_blank" class="btn btn-outline">LeetCode</a>
-      <a href="#contact" class="btn btn-outline">Contact Me</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-box"><div class="stat-n">129</div><div class="stat-l">LeetCode Solved</div></div>
-      <div class="stat-box"><div class="stat-n">10+</div><div class="stat-l">Projects Built</div></div>
-      <div class="stat-box"><div class="stat-n">Top 300</div><div class="stat-l">HackWithUP</div></div>
-      <div class="stat-box"><div class="stat-n">2026</div><div class="stat-l">Graduation</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="sec-wrap">
-    <div class="about-grid">
-      <div class="fi">
-        <div class="sec-eyebrow">About Me</div>
-        <h2 class="sec-title">Who I Am</h2>
-        <div class="bar"></div>
-        <div class="about-text">
-          <p>I'm a final-year <span class="hl">B.Tech Computer Science student</span> at Babu Banarasi Das University, Lucknow — a data enthusiast who finds beauty in patterns hidden inside messy datasets.</p>
-          <p>From building <span class="hl">ML prediction models</span> and <span class="hl">AI-powered legal assistants</span> to designing scalable <span class="hl">FastAPI backends</span> and interactive <span class="hl">Power BI dashboards</span>, I thrive at the intersection of data engineering and applied ML.</p>
-          <p>Beyond code, I've led teams of 12+ at university tech fests, competed in <span class="hl">Smart India Hackathon</span>, <span class="hl">RIFT 2026</span>, and placed in the <span class="hl">top 300 of 25,000+</span> at HackWithUttarPradesh.</p>
-        </div>
-        <div class="about-links">
-          <a href="https://github.com/dishambha" target="_blank" class="link-chip">⬡ GitHub</a>
-          <a href="https://www.linkedin.com/in/dishambha-awasthi/" target="_blank" class="link-chip">◈ LinkedIn</a>
-          <a href="https://leetcode.com/u/dishambha_awasthi/" target="_blank" class="link-chip">◉ LeetCode</a>
-          <a href="mailto:dishambhaawasthi0131@gmail.com" class="link-chip">✉ Email</a>
-        </div>
-      </div>
-      <div class="fi">
-        <div class="about-card">
-          <div class="info-row"><span class="ik">NAME</span><span class="iv">Dishambha Awasthi</span></div>
-          <div class="info-row"><span class="ik">LOCATION</span><span class="iv">Lucknow, UP, India</span></div>
-          <div class="info-row"><span class="ik">DEGREE</span><span class="iv">B.Tech CSE</span></div>
-          <div class="info-row"><span class="ik">UNIVERSITY</span><span class="iv">BBDU, Lucknow</span></div>
-          <div class="info-row"><span class="ik">GRADUATION</span><span class="iv">2026</span></div>
-          <div class="info-row"><span class="ik">PHONE</span><span class="iv">+91 9369879498</span></div>
-          <div class="info-row"><span class="ik">EMAIL</span><span class="iv"><a href="mailto:dishambhaawasthi0131@gmail.com">dishambhaawasthi0131@gmail.com</a></span></div>
-          <div class="info-row"><span class="ik">LINKEDIN</span><span class="iv"><a href="https://www.linkedin.com/in/dishambha-awasthi/" target="_blank">dishambha-awasthi</a></span></div>
-          <div class="info-row"><span class="ik">CERTIFICATION</span><span class="iv" style="color:var(--amber);font-weight:700">IBM Data Science</span></div>
-          <div class="info-row"><span class="ik">STATUS</span><span class="iv open-tag">⬤ Open to Opportunities</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="sec-wrap">
-    <div class="fi">
-      <div class="sec-eyebrow">Expertise</div>
-      <h2 class="sec-title">Technical Skills</h2>
-      <div class="bar"></div>
-    </div>
-    <div class="skills-layout">
-      <div class="skill-cats fi">
-        <div class="skill-card"><div class="sk-cat">Languages</div><div class="tags"><span class="tag tp">Python</span><span class="tag tp">C++</span><span class="tag tp">C</span><span class="tag tp">SQL</span><span class="tag tp">HTML/CSS</span></div></div>
-        <div class="skill-card"><div class="sk-cat">Data & Analytics</div><div class="tags"><span class="tag tc">Pandas</span><span class="tag tc">NumPy</span><span class="tag tc">Matplotlib</span><span class="tag tc">Seaborn</span><span class="tag tc">Power BI</span><span class="tag tc">Excel</span></div></div>
-        <div class="skill-card"><div class="sk-cat">Machine Learning</div><div class="tags"><span class="tag tg">Scikit-learn</span><span class="tag tg">Linear Regression</span><span class="tag tg">Feature Eng.</span><span class="tag tg">Model Eval.</span></div></div>
-        <div class="skill-card"><div class="sk-cat">Web & Backend</div><div class="tags"><span class="tag ta">FastAPI</span><span class="tag ta">Django</span><span class="tag ta">REST APIs</span><span class="tag ta">Streamlit</span><span class="tag ta">Postman</span></div></div>
-        <div class="skill-card"><div class="sk-cat">Databases & Tools</div><div class="tags"><span class="tag tb">MySQL</span><span class="tag tb">MongoDB</span><span class="tag tb">Git/GitHub</span><span class="tag tb">Jupyter</span><span class="tag tb">VS Code</span></div></div>
-        <div class="skill-card"><div class="sk-cat">Core CS</div><div class="tags"><span class="tag tr">DSA</span><span class="tag tr">OOP</span><span class="tag tr">ETL</span><span class="tag tr">DBMS</span><span class="tag tr">Problem Solving</span></div></div>
-      </div>
-      <div class="chart-box fi">
-        <div class="chart-title">Skill Proficiency Radar</div>
-        <canvas id="radarChart" height="255"></canvas>
-        <div style="margin-top:1.5rem">
-          <div class="chart-title">Language Usage Distribution</div>
-          <canvas id="donutChart" height="180"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="sec-wrap">
-    <div class="fi">
-      <div class="sec-eyebrow">Work</div>
-      <h2 class="sec-title">Projects</h2>
-      <div class="bar"></div>
-    </div>
-    <div class="proj-filter fi">
-      <button class="filt active" onclick="filterProj('all',this)">All</button>
-      <button class="filt" onclick="filterProj('ml',this)">Machine Learning</button>
-      <button class="filt" onclick="filterProj('da',this)">Data Analytics</button>
-      <button class="filt" onclick="filterProj('ai',this)">AI / NLP</button>
-      <button class="filt" onclick="filterProj('api',this)">Backend / API</button>
-      <button class="filt" onclick="filterProj('bi',this)">BI / Dashboard</button>
-    </div>
-    <div class="proj-grid" id="projGrid">
-      <div class="proj-card fi" data-cat="ml">
-        <span class="proj-badge badge-ml">ML</span>
-        <div class="proj-header">
-          <div class="proj-icon-wrap" style="background:#ece8f4">🤖</div>
-          <div class="proj-links">
-            <a class="proj-link" href="https://github.com/dishambha/Full-Stack-Car-Price-prediction-model" target="_blank" title="GitHub">⌥</a>
-            <a class="proj-link" href="https://full-stack-car-price-prediction-model-6v7sr9gkzqfg2rps2mfqug.streamlit.app/" target="_blank" title="Live Demo">↗</a>
-          </div>
-        </div>
-        <div class="proj-title">Car Price Prediction System</div>
-        <div class="proj-desc">Full-stack ML model using Linear Regression to predict car prices, deployed on Streamlit.</div>
-        <ul class="proj-bullets"><li>Data cleaning, feature engineering & preprocessing</li><li>Hyperparameter tuning & cross-validation</li><li>Feature importance visualizations</li></ul>
-        <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Pandas</span><span class="ptag">Scikit-learn</span><span class="ptag">Streamlit</span></div>
-      </div>
-      <div class="proj-card fi" data-cat="ai">
-        <span class="proj-badge badge-ai">AI</span>
-        <div class="proj-header">
-          <div class="proj-icon-wrap" style="background:#f4ece8">⚖️</div>
-          <div class="proj-links">
-            <a class="proj-link" href="https://github.com/dishambha/NyayaGPT" target="_blank" title="GitHub">⌥</a>
-            <a class="proj-link" href="https://nyayagpt-ten.vercel.app/" target="_blank" title="Live Demo">↗</a>
-          </div>
-        </div>
-        <div class="proj-title">NyayaGPT – Legal Assistant AI</div>
-        <div class="proj-desc">AI-powered legal assistant providing query-based legal information and guidance using NLP and FastAPI.</div>
-        <ul class="proj-bullets"><li>FastAPI backend with scalable architecture</li><li>NLP for understanding legal queries</li><li>Multi-user interaction support</li></ul>
-        <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">FastAPI</span><span class="ptag">NLP</span><span class="ptag">Vercel</span></div>
-      </div>
-      <div class="proj-card fi" data-cat="bi">
-        <span class="proj-badge badge-bi">BI</span>
-        <div class="proj-header">
-          <div class="proj-icon-wrap" style="background:#f4f0e4">📊</div>
-          <div class="proj-links">
-            <a class="proj-link" href="https://github.com/dishambha/powerbi-sales-dashboard" target="_blank" title="GitHub">⌥</a>
-            <a class="proj-link" href="https://app.powerbi.com/links/6zjTi2jG7s?ctid=8090291b-ebcc-4bdf-bde1-cbacbb7c25a9&pbi_source=linkShare" target="_blank" title="Live Dashboard">↗</a>
-          </div>
-        </div>
-        <div class="proj-title">Power BI Sales Dashboard</div>
-        <div class="proj-desc">Interactive Power BI dashboard analyzing sales performance and key business metrics.</div>
-        <ul class="proj-bullets"><li>Dynamic KPIs with region, category & time filters</li><li>Advanced DAX: YoY growth & running totals</li><li>Decision-support interactive visualizations</li></ul>
-        <div class="proj-tags"><span class="ptag">Power BI</span><span class="ptag">DAX</span><span class="ptag">Excel</span></div>
-      </div>
-      <div class="proj-card fi" data-cat="da">
-        <span class="proj-badge badge-da">EDA</span>
-        <div class="proj-header">
-          <div class="proj-icon-wrap" style="background:#eef4e8">🪔</div>
-          <div class="proj-links">
-            <a class="proj-link" href="https://github.com/dishambha/Diwali_Sales_Analysis" target="_blank" title="GitHub">⌥</a>
-            <a class="proj-link disabled" href="#" title="No live demo">↗</a>
-          </div>
-        </div>
-        <div class="proj-title">Diwali Sales Analysis</div>
-        <div class="proj-desc">EDA on 11,000+ records to uncover customer purchasing behavior and key segments.</div>
-        <ul class="proj-bullets"><li>Segmentation by age, gender, location & occupation</li><li>Actionable insights for marketing & inventory</li><li>Visual reports with Matplotlib & Seaborn</li></ul>
-        <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Pandas</span><span class="ptag">Matplotlib</span><span class="ptag">Seaborn</span></div>
-      </div>
-      <div class="proj-card fi" data-cat="da">
-        <span class="proj-badge badge-da">EDA</span>
-        <div class="proj-header">
-          <div class="proj-icon-wrap" style="background:#e8eff4">🌤️</div>
-          <div class="proj-links">
-            <a class="proj-link" href="https://github.com/dishambha/Weather-Data-Analytics-Project" target="_blank" title="GitHub">⌥</a>
-            <a class="proj-link disabled" href="#" title="No live demo">↗</a>
-          </div>
-        </div>
-        <div class="proj-title">Weather Data Analytics</div>
-        <div class="proj-desc">Trend analysis and seasonal pattern detection on large-scale weather datasets.</div>
-        <ul class="proj-bullets"><li>Data cleaning & validation pipeline</li><li>Anomaly detection & seasonal trend analysis</li><li>Temperature, humidity & variation visualizations</li></ul>
-        <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">Pandas</span><span class="ptag">Matplotlib</span></div>
-      </div>
-      <div class="proj-card fi" data-cat="ai">
-        <span class="proj-badge badge-ai">Hackathon</span>
-        <div class="proj-header">
-          <div class="proj-icon-wrap" style="background:#f4e8ec">🧬</div>
-          <div class="proj-links">
-            <a class="proj-link" href="https://github.com/dishambha/HelixSutra" target="_blank" title="GitHub">⌥</a>
-            <a class="proj-link" href="https://helixsutra.netlify.app/" target="_blank" title="Live Demo">↗</a>
-          </div>
-        </div>
-        <div class="proj-title">HelixSutra – RIFT 2026</div>
-        <div class="proj-desc">AI-driven solution developed at RIFT 2026 Hackathon focused on innovative problem solving.</div>
-        <ul class="proj-bullets"><li>Built under tight hackathon deadline</li><li>AI-driven core architecture</li><li>Team collaboration & rapid prototyping</li></ul>
-        <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">AI</span><span class="ptag">FastAPI</span><span class="ptag">Netlify</span></div>
-      </div>
-      <div class="proj-card fi" data-cat="api">
-        <span class="proj-badge badge-api">API</span>
-        <div class="proj-header">
-          <div class="proj-icon-wrap" style="background:#e8f4ee">📜</div>
-          <div class="proj-links">
-            <a class="proj-link" href="https://github.com/dishambha/constitution-backend-api" target="_blank" title="GitHub">⌥</a>
-            <a class="proj-link disabled" href="#" title="Backend only">↗</a>
-          </div>
-        </div>
-        <div class="proj-title">Constitution Info API</div>
-        <div class="proj-desc">Backend-first API platform providing structured access to the Indian Constitution — Parts, Articles, Schedules & Preamble.</div>
-        <ul class="proj-bullets"><li>Clean architecture & scalable backend design</li><li>Full coverage of Parts, Articles & Schedules</li><li>RESTful API with real-world design principles</li></ul>
-        <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">FastAPI</span><span class="ptag">REST API</span></div>
-      </div>
-      <div class="proj-card fi" data-cat="api">
-        <span class="proj-badge badge-web" style="background:#e8ecf4;color:#2a3a5a">Web</span>
-        <div class="proj-header">
-          <div class="proj-icon-wrap" style="background:#e8ecf4">💬</div>
-          <div class="proj-links">
-            <a class="proj-link" href="https://github.com/dishambha/personal-messages-board" target="_blank" title="GitHub">⌥</a>
-            <a class="proj-link" href="https://beamish-phoenix-fbee7b.netlify.app/" target="_blank" title="Live Demo">↗</a>
-          </div>
-        </div>
-        <div class="proj-title">Personal Message Board</div>
-        <div class="proj-desc">Modern web app where people write messages with emotions. FastAPI backend + vanilla JS frontend.</div>
-        <ul class="proj-bullets"><li>Emotion-based message posting with anonymous option</li><li>Real-time message display</li><li>Fully responsive beautiful UI</li></ul>
-        <div class="proj-tags"><span class="ptag">FastAPI</span><span class="ptag">JavaScript</span><span class="ptag">Netlify</span></div>
-      </div>
-      <div class="proj-card fi" data-cat="api">
-        <span class="proj-badge badge-api">API</span>
-        <div class="proj-header">
-          <div class="proj-icon-wrap" style="background:#eef4e8">🎓</div>
-          <div class="proj-links">
-            <a class="proj-link" href="https://github.com/dishambha/learnbuddy-api" target="_blank" title="GitHub">⌥</a>
-            <a class="proj-link disabled" href="#" title="No live demo">↗</a>
-          </div>
-        </div>
-        <div class="proj-title">LearnBuddy API</div>
-        <div class="proj-desc">Scalable backend for a learning platform with recommendation logic to personalize learning resources.</div>
-        <ul class="proj-bullets"><li>Efficient content delivery via RESTful APIs</li><li>Personalized recommendation engine</li><li>Scalable FastAPI architecture</li></ul>
-        <div class="proj-tags"><span class="ptag">Python</span><span class="ptag">FastAPI</span><span class="ptag">REST API</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- LEETCODE -->
-<section id="leetcode">
-  <div class="sec-wrap">
-    <div class="fi">
-      <div class="sec-eyebrow">Problem Solving</div>
-      <h2 class="sec-title">LeetCode Stats</h2>
-      <div class="bar"></div>
-    </div>
-    <div class="leet-layout">
-      <div class="fi">
-        <div class="leet-total"><div class="leet-total-n">129</div><div class="leet-label">Total Problems Solved</div></div>
-        <div class="leet-stats">
-          <div class="leet-stat"><div class="leet-n leet-e">52</div><div class="leet-label">Easy</div></div>
-          <div class="leet-stat"><div class="leet-n leet-m">68</div><div class="leet-label">Medium</div></div>
-          <div class="leet-stat"><div class="leet-n leet-h">9</div><div class="leet-label">Hard</div></div>
-        </div>
-        <div class="skill-section"><div class="skill-section-title">Advanced</div><div class="skill-pills"><span class="skill-pill sp-adv">Dynamic Programming ×9</span><span class="skill-pill sp-adv">Backtracking ×4</span><span class="skill-pill sp-adv">Divide & Conquer ×4</span><span class="skill-pill sp-adv">Monotonic Stack ×3</span><span class="skill-pill sp-adv">Trie ×1</span><span class="skill-pill sp-adv">Union-Find ×1</span></div></div>
-        <div class="skill-section"><div class="skill-section-title">Intermediate</div><div class="skill-pills"><span class="skill-pill sp-int">Binary Search ×24</span><span class="skill-pill sp-int">Hash Table ×21</span><span class="skill-pill sp-int">Math ×20</span><span class="skill-pill sp-int">Sliding Window ×10</span><span class="skill-pill sp-int">Database ×9</span><span class="skill-pill sp-int">Greedy ×8</span><span class="skill-pill sp-int">Bit Manipulation ×7</span><span class="skill-pill sp-int">Recursion ×6</span></div></div>
-        <div class="skill-section"><div class="skill-section-title">Fundamental</div><div class="skill-pills"><span class="skill-pill sp-fun">Array ×70</span><span class="skill-pill sp-fun">Two Pointers ×26</span><span class="skill-pill sp-fun">Linked List ×23</span><span class="skill-pill sp-fun">String ×16</span><span class="skill-pill sp-fun">Sorting ×15</span><span class="skill-pill sp-fun">Matrix ×11</span><span class="skill-pill sp-fun">Stack ×8</span><span class="skill-pill sp-fun">Simulation ×8</span></div></div>
-        <a href="https://leetcode.com/u/dishambha_awasthi/" target="_blank" class="leet-cta">View LeetCode profile ↗</a>
-        <br><br>
-        <a href="https://github.com/dishambha/leetcode-questions" target="_blank" class="leet-cta">All solutions on GitHub ↗</a>
-      </div>
-      <div class="chart-wrap fi">
-        <div class="chart-title" style="margin-bottom:1.2rem">Topic Breakdown</div>
-        <canvas id="leetBarChart" height="330"></canvas>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="sec-wrap">
-    <div class="fi"><div class="sec-eyebrow">Journey</div><h2 class="sec-title">Experience & Training</h2><div class="bar"></div></div>
-    <div class="tl">
-      <div class="tl-item fi"><div class="tl-date"><div class="tl-d">JUL 2025</div></div><div class="tl-spine"><div class="tl-dot hl"></div><div class="tl-line-v"></div></div><div class="tl-body"><div class="tl-title">Data Science Intern</div><div class="tl-org">Grastech</div><div class="tl-desc">Data analysis & preprocessing with Python and Excel. Real-world EDA workflows, data cleaning, validation, and business problem-solving.</div><span class="tl-tag tag-intern">Internship</span></div></div>
-      <div class="tl-item fi"><div class="tl-date"><div class="tl-d">2026</div></div><div class="tl-spine"><div class="tl-dot hl"></div><div class="tl-line-v"></div></div><div class="tl-body"><div class="tl-title">Team Head – DBM & Registrations</div><div class="tl-org">Utkarsh 2026 Fest · BBDU</div><div class="tl-desc">Led 12+ members overseeing database management, participant registration, and large-scale event coordination.</div><span class="tl-tag tag-lead">Leadership</span></div></div>
-      <div class="tl-item fi"><div class="tl-date"><div class="tl-d">2026</div></div><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line-v"></div></div><div class="tl-body"><div class="tl-title">RIFT 2026 Hackathon – HelixSutra</div><div class="tl-org">University-Level Hackathon</div><div class="tl-desc">Developed HelixSutra, an innovative AI-driven solution. Live at helixsutra.netlify.app.</div><span class="tl-tag tag-hack">Hackathon</span></div></div>
-      <div class="tl-item fi"><div class="tl-date"><div class="tl-d">2025</div></div><div class="tl-spine"><div class="tl-dot hl"></div><div class="tl-line-v"></div></div><div class="tl-body"><div class="tl-title">HackWithUttarPradesh</div><div class="tl-org">State-Level · 25,000+ Registrations</div><div class="tl-desc">Selected among top 300 teams out of 25,000+ participants.</div><span class="tl-tag tag-top">Top 300 / 25,000+</span></div></div>
-      <div class="tl-item fi"><div class="tl-date"><div class="tl-d">2025</div></div><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line-v"></div></div><div class="tl-body"><div class="tl-title">Coordinator – DBM Team</div><div class="tl-org">Utkarsh 2025 Fest · BBDU</div><div class="tl-desc">Led 10+ members managing database operations and event coordination.</div><span class="tl-tag tag-lead">Leadership</span></div></div>
-      <div class="tl-item fi"><div class="tl-date"><div class="tl-d">NOV 2024</div></div><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line-v"></div></div><div class="tl-body"><div class="tl-title">Soft Skills Training</div><div class="tl-org">Learnovate Enterprises</div><div class="tl-desc">Workshops on professional communication, presentation skills, and teamwork strategies.</div></div></div>
-      <div class="tl-item fi"><div class="tl-date"><div class="tl-d">2024</div></div><div class="tl-spine"><div class="tl-dot"></div><div class="tl-line-v"></div></div><div class="tl-body"><div class="tl-title">Smart India Hackathon (SIH)</div><div class="tl-org">National Level · Hacked 3.0</div><div class="tl-desc">Participated in India's largest hackathon building real-world solutions under pressure.</div><span class="tl-tag tag-hack">National Hackathon</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ACHIEVEMENTS -->
-<section id="achievements" style="background:var(--bg2)">
-  <div class="sec-wrap">
-    <div class="fi"><div class="sec-eyebrow">Recognition</div><h2 class="sec-title">Achievements</h2><div class="bar"></div></div>
-    <div class="ach-grid">
-      <div class="ach-card fi"><div class="ach-icon">🏆</div><div><div class="ach-t">IBM Data Science Certified</div><div class="ach-s">Hands-on ML, data analysis, and visualization.</div></div></div>
-      <div class="ach-card fi"><div class="ach-icon">💡</div><div><div class="ach-t">129 LeetCode Problems</div><div class="ach-s">52 Easy · 68 Medium · 9 Hard — consistent grind.</div></div></div>
-      <div class="ach-card fi"><div class="ach-icon">🚀</div><div><div class="ach-t">Top 300 – HackWithUP</div><div class="ach-s">Selected from 25,000+ at state-level hackathon.</div></div></div>
-      <div class="ach-card fi"><div class="ach-icon">👨‍💼</div><div><div class="ach-t">Team Head – Utkarsh 2026</div><div class="ach-s">Led 12+ members for DBM & Registrations.</div></div></div>
-      <div class="ach-card fi"><div class="ach-icon">🧬</div><div><div class="ach-t">RIFT 2026 – HelixSutra</div><div class="ach-s">Built & deployed AI solution at hackathon.</div></div></div>
-      <div class="ach-card fi"><div class="ach-icon">⚡</div><div><div class="ach-t">Smart India Hackathon</div><div class="ach-s">National-level participant, SIH & Hacked 3.0.</div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="sec-wrap">
-    <div class="fi"><div class="sec-eyebrow">Let's Connect</div><h2 class="sec-title">Get In Touch</h2><div class="bar"></div></div>
-    <div class="contact-layout">
-      <div class="fi">
-        <div class="contact-info">
-          <h3>Open to <span style="color:var(--p2)">Opportunities</span></h3>
-          <p>Whether you have a job offer, project collaboration, internship, or just want to say hi — my inbox is always open. I typically respond within 24 hours.</p>
-        </div>
-        <div class="contact-socials">
-          <a href="mailto:dishambhaawasthi0131@gmail.com" class="soc-link">
-            <div class="soc-icon" style="background:#e4f0e8;color:#2a5a3a"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
-            <div class="soc-label"><div style="font-size:.82rem;font-weight:700;color:var(--a1)">Email</div><div style="font-size:.72rem;color:var(--muted)">dishambhaawasthi0131@gmail.com</div></div>
-            <span class="soc-arrow">↗</span>
-          </a>
-          <a href="https://wa.me/919369879498" target="_blank" class="soc-link">
-            <div class="soc-icon" style="background:#e4f0e8;color:#2a5a3a"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
-            <div class="soc-label"><div style="font-size:.82rem;font-weight:700;color:var(--a1)">WhatsApp</div><div style="font-size:.72rem;color:var(--muted)">+91 9369879498</div></div>
-            <span class="soc-arrow">↗</span>
-          </a>
-          <a href="https://github.com/dishambha" target="_blank" class="soc-link">
-            <div class="soc-icon" style="background:#eeeaf4;color:#3a2a5a"><svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></div>
-            <div class="soc-label"><div style="font-size:.82rem;font-weight:700;color:var(--a1)">GitHub</div><div style="font-size:.72rem;color:var(--muted)">github.com/dishambha</div></div>
-            <span class="soc-arrow">↗</span>
-          </a>
-          <a href="https://www.linkedin.com/in/dishambha-awasthi/" target="_blank" class="soc-link">
-            <div class="soc-icon" style="background:#e4ecf4;color:#1a3a5a"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
-            <div class="soc-label"><div style="font-size:.82rem;font-weight:700;color:var(--a1)">LinkedIn</div><div style="font-size:.72rem;color:var(--muted)">dishambha-awasthi</div></div>
-            <span class="soc-arrow">↗</span>
-          </a>
-          <a href="https://leetcode.com/u/dishambha_awasthi/" target="_blank" class="soc-link">
-            <div class="soc-icon" style="background:#f4f0e4;color:#4a3810"><svg viewBox="0 0 24 24"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/></svg></div>
-            <div class="soc-label"><div style="font-size:.82rem;font-weight:700;color:var(--a1)">LeetCode</div><div style="font-size:.72rem;color:var(--muted)">dishambha_awasthi · 129 solved</div></div>
-            <span class="soc-arrow">↗</span>
-          </a>
-        </div>
-      </div>
-      <div class="contact-form fi">
-        <div class="form-title">Send Me a Message</div>
-        <div class="form-row">
-          <div class="form-group"><label>Name</label><input type="text" id="fname" placeholder="Your name"/></div>
-          <div class="form-group"><label>Email</label><input type="email" id="femail" placeholder="you@email.com"/></div>
-        </div>
-        <div class="form-group"><label>Type</label><select id="ftype"><option value="opportunity">Job Opportunity</option><option value="project">Project Collaboration</option><option value="query">General Query</option><option value="review">Review / Feedback</option><option value="other">Other</option></select></div>
-        <div class="form-group"><label>Subject</label><input type="text" id="fsubject" placeholder="What's this about?"/></div>
-        <div class="form-group"><label>Message</label><textarea id="fmessage" rows="4" placeholder="Write your message here..."></textarea></div>
-        <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">Send Message →</button>
-        <div class="form-msg" id="formMsg"></div>
-        <p style="font-size:.7rem;color:var(--muted);margin-top:.7rem;text-align:center">Messages are stored in DB and forwarded via the Python backend.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="foot-txt">Built by <span>Dishambha Awasthi</span> · B.Tech CSE 2026 · BBDU Lucknow · <span>dishambhaawasthi0131@gmail.com</span></div>
-</footer>
-
-<script>
-/* TYPED */
-const roles=['Data Analyst','ML Engineer','FastAPI Developer','Python Developer','Backend Engineer','Problem Solver'];
-let ri=0,ci=0,del=false;
-const tel=document.getElementById('typed');
-function type(){
-  const w=roles[ri];
-  tel.textContent=del?w.slice(0,ci--):w.slice(0,ci++);
-  if(!del&&ci>w.length){del=true;setTimeout(type,1400);return}
-  if(del&&ci<0){del=false;ri=(ri+1)%roles.length;ci=0;setTimeout(type,400);return}
-  setTimeout(type,del?55:95);
-}
-type();
-
-/* OBSERVER */
-const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.08});
-document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
-
-/* FILTER */
-function filterProj(cat,btn){
-  document.querySelectorAll('.filt').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.proj-card').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'flex':'none'});
-}
-
-/* CONTACT */
-async function handleSubmit(){
-  const name=document.getElementById('fname').value.trim();
-  const email=document.getElementById('femail').value.trim();
-  const type=document.getElementById('ftype').value;
-  const subject=document.getElementById('fsubject').value.trim();
-  const message=document.getElementById('fmessage').value.trim();
-  const msg=document.getElementById('formMsg');
-  const btn=document.getElementById('submitBtn');
-  if(!name||!email||!message){msg.className='form-msg err';msg.textContent='Please fill in Name, Email, and Message.';return}
-  btn.disabled=true;btn.textContent='Sending...';
-  try{
-    const res=await fetch('http://localhost:8000/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,type,subject,message})});
-    if(res.ok){msg.className='form-msg ok';msg.textContent="Message sent! I'll get back to you within 24 hours.";['fname','femail','fsubject','fmessage'].forEach(id=>document.getElementById(id).value='')}
-    else throw new Error();
-  }catch(e){msg.className='form-msg ok';msg.textContent='Message noted! Connect the Python backend to enable DB storage & WhatsApp forwarding.'}
-  btn.disabled=false;btn.textContent='Send Message →';
-}
-
-/* CHARTS */
-window.addEventListener('load',()=>{
-  const fnt={color:'#588157',font:{size:10,family:'Segoe UI'}};
-  const grd={color:'rgba(88,129,87,.12)'};
-
-  new Chart(document.getElementById('radarChart'),{
-    type:'radar',
-    data:{
-      labels:['Python','Data Analytics','ML/AI','FastAPI','SQL/DB','DSA','Visualization'],
-      datasets:[{label:'Proficiency',data:[92,88,76,82,78,72,85],backgroundColor:'rgba(88,129,87,.15)',borderColor:'#588157',pointBackgroundColor:'#3a5a40',pointBorderColor:'#3a5a40',borderWidth:2,pointRadius:4}]
-    },
-    options:{responsive:true,plugins:{legend:{display:false}},scales:{r:{ticks:{display:false},grid:{color:'rgba(88,129,87,.15)'},angleLines:{color:'rgba(88,129,87,.15)'},pointLabels:{color:'#3a5a40',font:{size:10}}}}}
-  });
-
-  new Chart(document.getElementById('donutChart'),{
-    type:'doughnut',
-    data:{
-      labels:['Python','C++','SQL','HTML/CSS','JavaScript'],
-      datasets:[{data:[60,18,12,6,4],backgroundColor:['#3a5a40','#588157','#a3b18a','#8a7240','#3d6b72'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]
-    },
-    options:{responsive:true,cutout:'65%',plugins:{legend:{position:'right',labels:{color:'#3a5a40',font:{size:10},boxWidth:10,padding:8}}}}
-  });
-
-  new Chart(document.getElementById('leetBarChart'),{
-    type:'bar',
-    data:{
-      labels:['Array','Two Ptr','Linked List','Bin Search','Hash Table','Math','String','Sorting','Sliding Win','Matrix','Stack','Sim','DB','Greedy','Bit Man','Recursion','DP','Backtrack','D&C','Mono Stack'],
-      datasets:[
-        {label:'Fundamental',data:[70,26,23,0,0,0,16,15,0,11,8,8,0,0,0,0,0,0,0,0],backgroundColor:'rgba(88,129,87,.65)',borderRadius:3,stack:'s'},
-        {label:'Intermediate',data:[0,0,0,24,21,20,0,0,10,0,0,0,9,8,7,6,0,0,0,0],backgroundColor:'rgba(138,114,64,.65)',borderRadius:3,stack:'s'},
-        {label:'Advanced',data:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,4,4,3],backgroundColor:'rgba(90,42,58,.65)',borderRadius:3,stack:'s'}
-      ]
-    },
-    options:{
-      indexAxis:'y',responsive:true,
-      plugins:{legend:{labels:{color:'#3a5a40',font:{size:9},boxWidth:10}}},
-      scales:{
-        x:{ticks:fnt,grid:grd,stacked:true},
-        y:{ticks:{...fnt,font:{size:9}},grid:{display:false},stacked:true}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Dishambha Awasthi | Software Engineer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-    }
-  });
-});
-</script>
-</body>
+      :root {
+        --bg: #f0f2ee;
+        --bg2: #e8ece4;
+        --bg3: #dde3d8;
+        --p1: #3a5a40;
+        --p2: #588157;
+        --p3: #a3b18a;
+        --a1: #344e41;
+        --a2: #588157;
+        --text: #1e2d22;
+        --text2: #3a5a40;
+        --text3: #588157;
+        --muted: #7a9070;
+        --faint: #c8d4c0;
+        --border: #c2ceba;
+        --card: #ffffff;
+        --green: #3a5a40;
+        --amber: #8a7240;
+        --rust: #7a4f35;
+        --sky: #3d6b72;
+        --lilac: #5c527a;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Segoe UI", system-ui, sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg2);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--p2);
+        border-radius: 3px;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 200;
+        background: rgba(240, 242, 238, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 2rem;
+      }
+      .nav-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 62px;
+      }
+      .logo {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--p1);
+        letter-spacing: 0.5px;
+      }
+      .logo span {
+        color: var(--p2);
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.75rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: var(--text2);
+        text-decoration: none;
+        font-size: 0.78rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        transition: color 0.2s;
+        font-weight: 600;
+      }
+      .nav-links a:hover {
+        color: var(--p1);
+      }
+      .hire-btn {
+        padding: 0.42rem 1.2rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-decoration: none;
+        background: var(--p1);
+        color: #f0f2ee;
+        transition: all 0.2s;
+      }
+      .hire-btn:hover {
+        background: var(--a1);
+        transform: translateY(-1px);
+      }
+
+      /* HERO */
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7rem 2rem 4rem;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          160deg,
+          #e8ece4 0%,
+          #dde3d8 40%,
+          #d0d9c8 100%
+        );
+      }
+      .hero-blobs {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.35;
+      }
+      .b1 {
+        width: 500px;
+        height: 500px;
+        background: #a3b18a;
+        top: -100px;
+        left: -150px;
+      }
+      .b2 {
+        width: 400px;
+        height: 400px;
+        background: #588157;
+        bottom: -80px;
+        right: -100px;
+      }
+      .b3 {
+        width: 300px;
+        height: 300px;
+        background: #dad7cd;
+        top: 40%;
+        left: 60%;
+      }
+      .grid-lines {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(58, 90, 64, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(58, 90, 64, 0.06) 1px, transparent 1px);
+        background-size: 48px 48px;
+      }
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        text-align: center;
+      }
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(58, 90, 64, 0.1);
+        border: 1px solid rgba(58, 90, 64, 0.25);
+        color: var(--p1);
+        font-size: 0.78rem;
+        padding: 0.35rem 1rem;
+        border-radius: 999px;
+        margin-bottom: 1.75rem;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+      }
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--p2);
+        animation: pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(88, 129, 87, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 7px rgba(88, 129, 87, 0);
+        }
+      }
+      h1.hero-name {
+        font-size: clamp(2.8rem, 7vw, 5.5rem);
+        font-weight: 900;
+        letter-spacing: -2px;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+        color: var(--a1);
+      }
+      .grad-text {
+        background: linear-gradient(
+          135deg,
+          #344e41 0%,
+          #588157 50%,
+          #3a5a40 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .hero-sub {
+        font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+        color: var(--muted);
+        margin-bottom: 0.5rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+      .hero-role {
+        font-size: clamp(1rem, 2.5vw, 1.35rem);
+        color: var(--p2);
+        margin-bottom: 1.25rem;
+        min-height: 2.2rem;
+        font-weight: 600;
+      }
+      #typed {
+        border-right: 2px solid var(--p2);
+        padding-right: 3px;
+        animation: blink 0.7s step-end infinite;
+      }
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+      .hero-desc {
+        font-size: 0.97rem;
+        color: var(--text2);
+        max-width: 640px;
+        margin: 0 auto 2.5rem;
+        line-height: 1.85;
+      }
+      .hero-btns {
+        display: flex;
+        gap: 0.9rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 3.5rem;
+      }
+      .btn {
+        padding: 0.72rem 1.6rem;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        font-weight: 700;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.25s;
+        letter-spacing: 0.3px;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .btn-solid {
+        background: var(--p1);
+        color: #f0f2ee;
+      }
+      .btn-solid:hover {
+        background: var(--a1);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(58, 90, 64, 0.25);
+      }
+      .btn-outline {
+        background: transparent;
+        border: 1.5px solid var(--p2);
+        color: var(--p1);
+      }
+      .btn-outline:hover {
+        background: var(--p2);
+        color: #f0f2ee;
+        transform: translateY(-2px);
+      }
+      .hero-stats {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
+      }
+      .stat-box {
+        padding: 1.25rem 2rem;
+        text-align: center;
+        border-right: 1px solid var(--border);
+        flex: 1;
+        min-width: 110px;
+      }
+      .stat-box:last-child {
+        border: none;
+      }
+      .stat-n {
+        font-size: 1.9rem;
+        font-weight: 900;
+        color: var(--p1);
+      }
+      .stat-l {
+        font-size: 0.68rem;
+        color: var(--muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-top: 0.15rem;
+      }
+
+      /* SECTIONS */
+      section {
+        padding: 5.5rem 2rem;
+        position: relative;
+      }
+      .sec-wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .sec-eyebrow {
+        font-size: 0.68rem;
+        color: var(--p2);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+      }
+      .sec-title {
+        font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 0.5rem;
+        color: var(--a1);
+      }
+      .bar {
+        width: 48px;
+        height: 3px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--p1), var(--p3));
+        margin-bottom: 3rem;
+      }
+
+      /* ABOUT */
+      #about {
+        background: var(--bg2);
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3.5rem;
+        align-items: start;
+      }
+      .about-text p {
+        color: var(--text2);
+        line-height: 1.9;
+        margin-bottom: 1rem;
+        font-size: 0.93rem;
+      }
+      .hl {
+        color: var(--p1);
+        font-weight: 700;
+      }
+      .about-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1.5rem;
+      }
+      .link-chip {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.38rem 0.9rem;
+        border-radius: 6px;
+        border: 1.5px solid var(--border);
+        color: var(--text2);
+        text-decoration: none;
+        font-size: 0.78rem;
+        transition: all 0.2s;
+        background: white;
+        font-weight: 600;
+      }
+      .link-chip:hover {
+        border-color: var(--p1);
+        color: var(--p1);
+        background: rgba(58, 90, 64, 0.05);
+      }
+      .about-card {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 2px 16px rgba(58, 90, 64, 0.07);
+      }
+      .about-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--p1), var(--p3));
+      }
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--bg3);
+        font-size: 0.84rem;
+      }
+      .info-row:last-child {
+        border: none;
+      }
+      .ik {
+        color: var(--muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+      }
+      .iv {
+        color: var(--text);
+        font-weight: 600;
+        text-align: right;
+      }
+      .iv a {
+        color: var(--p2);
+        text-decoration: none;
+      }
+      .iv a:hover {
+        color: var(--p1);
+      }
+      .open-tag {
+        color: var(--green);
+        font-weight: 700;
+      }
+
+      /* SKILLS */
+      #skills {
+        background: var(--bg);
+      }
+      .skills-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: start;
+      }
+      .skill-cats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.9rem;
+        width: 100%;
+      }
+      .skill-card {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 1.1rem 1.2rem;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        width: 100%;
+        box-shadow: 0 1px 8px rgba(58, 90, 64, 0.06);
+      }
+      .skill-card:hover {
+        border-color: var(--p2);
+        box-shadow: 0 4px 16px rgba(58, 90, 64, 0.12);
+      }
+      .sk-cat {
+        font-size: 0.67rem;
+        color: var(--p2);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 0.65rem;
+        font-weight: 700;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+      }
+      .tag {
+        padding: 0.22rem 0.65rem;
+        border-radius: 5px;
+        font-size: 0.73rem;
+        font-weight: 600;
+      }
+      .tp {
+        background: #e8f0e4;
+        color: #2d4a33;
+        border: 1px solid #c2d4bb;
+      }
+      .tc {
+        background: #e4ede8;
+        color: #2a4a38;
+        border: 1px solid #b8d0c2;
+      }
+      .tg {
+        background: #eaf2e4;
+        color: #3a6040;
+        border: 1px solid #c0d8b8;
+      }
+      .ta {
+        background: #f0ece0;
+        color: #5a4820;
+        border: 1px solid #d8cca0;
+      }
+      .tb {
+        background: #e4ecf0;
+        color: #1e4a5a;
+        border: 1px solid #b0ccd8;
+      }
+      .tr {
+        background: #f0e8ec;
+        color: #5a2a3a;
+        border: 1px solid #d8b0bc;
+      }
+      .chart-box {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 16px rgba(58, 90, 64, 0.07);
+      }
+      .chart-title {
+        font-size: 0.75rem;
+        color: var(--muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      /* PROJECTS */
+      #projects {
+        background: var(--bg2);
+      }
+      .proj-filter {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+      .filt {
+        padding: 0.32rem 0.9rem;
+        border-radius: 6px;
+        border: 1.5px solid var(--border);
+        background: white;
+        color: var(--text2);
+        font-size: 0.76rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        font-weight: 600;
+      }
+      .filt.active,
+      .filt:hover {
+        background: var(--p1);
+        border-color: var(--p1);
+        color: #f0f2ee;
+      }
+      .proj-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.3rem;
+      }
+      .proj-card {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 1.35rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        transition:
+          border-color 0.25s,
+          transform 0.25s,
+          box-shadow 0.25s;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(58, 90, 64, 0.06);
+      }
+      .proj-card:hover {
+        border-color: var(--p2);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 28px rgba(58, 90, 64, 0.14);
+      }
+      .proj-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .proj-icon-wrap {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+      .proj-links {
+        display: flex;
+        gap: 0.4rem;
+      }
+      .proj-link {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        border: 1.5px solid var(--border);
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.8rem;
+        transition: all 0.2s;
+      }
+      .proj-link:hover {
+        border-color: var(--p1);
+        color: var(--p1);
+        background: rgba(58, 90, 64, 0.05);
+      }
+      .proj-link.disabled {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+      .proj-title {
+        font-size: 0.97rem;
+        font-weight: 700;
+        color: var(--a1);
+      }
+      .proj-desc {
+        font-size: 0.82rem;
+        color: var(--text2);
+        line-height: 1.7;
+      }
+      .proj-bullets {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.32rem;
+      }
+      .proj-bullets li {
+        font-size: 0.79rem;
+        color: var(--text2);
+        padding-left: 0.9rem;
+        position: relative;
+        line-height: 1.6;
+      }
+      .proj-bullets li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: var(--p2);
+        font-size: 0.72rem;
+      }
+      .proj-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.28rem;
+        margin-top: auto;
+      }
+      .ptag {
+        padding: 0.16rem 0.55rem;
+        border-radius: 4px;
+        font-size: 0.69rem;
+        background: #e8f0e4;
+        color: #2d4a33;
+        border: 1px solid #c2d4bb;
+        font-weight: 600;
+      }
+      .proj-badge {
+        position: absolute;
+        top: 0.8rem;
+        right: 0.8rem;
+        font-size: 0.58rem;
+        padding: 0.18rem 0.5rem;
+        border-radius: 4px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .badge-ml {
+        background: #e8e4f0;
+        color: #3a2a5a;
+      }
+      .badge-da {
+        background: #e4f0e8;
+        color: #1a4a2a;
+      }
+      .badge-bi {
+        background: #f0ece0;
+        color: #4a3a10;
+      }
+      .badge-ai {
+        background: #f0e8e4;
+        color: #4a2010;
+      }
+      .badge-web {
+        background: #e4ecf0;
+        color: #1a3a4a;
+      }
+      .badge-api {
+        background: #e8f0ea;
+        color: #1a4030;
+      }
+
+      /* LEETCODE */
+      #leetcode {
+        background: var(--bg);
+      }
+      .leet-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: start;
+      }
+      .leet-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+      }
+      .leet-stat {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 1.1rem;
+        text-align: center;
+        box-shadow: 0 1px 8px rgba(58, 90, 64, 0.06);
+      }
+      .leet-n {
+        font-size: 1.6rem;
+        font-weight: 900;
+      }
+      .leet-e {
+        color: #3a7040;
+      }
+      .leet-m {
+        color: #8a6820;
+      }
+      .leet-h {
+        color: #7a2a2a;
+      }
+      .leet-label {
+        font-size: 0.68rem;
+        color: var(--muted);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 0.2rem;
+        font-weight: 600;
+      }
+      .leet-total {
+        background: white;
+        border: 1.5px solid var(--p2);
+        border-radius: 12px;
+        padding: 1.1rem;
+        text-align: center;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 2px 12px rgba(88, 129, 87, 0.12);
+      }
+      .leet-total-n {
+        font-size: 2.4rem;
+        font-weight: 900;
+        color: var(--p1);
+      }
+      .skill-section {
+        margin-bottom: 1rem;
+      }
+      .skill-section-title {
+        font-size: 0.67rem;
+        color: var(--p2);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 0.55rem;
+        font-weight: 700;
+      }
+      .skill-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.32rem;
+      }
+      .skill-pill {
+        padding: 0.2rem 0.65rem;
+        border-radius: 999px;
+        font-size: 0.71rem;
+        font-weight: 600;
+      }
+      .sp-adv {
+        background: #f0e8e4;
+        color: #5a2a20;
+        border: 1px solid #d4b0a4;
+      }
+      .sp-int {
+        background: #f0ece0;
+        color: #4a3810;
+        border: 1px solid #d4c890;
+      }
+      .sp-fun {
+        background: #e8f0e4;
+        color: #2a4820;
+        border: 1px solid #b8d0b0;
+      }
+      .leet-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        padding: 0.52rem 1.1rem;
+        border-radius: 7px;
+        border: 1.5px solid var(--p2);
+        color: var(--p1);
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 600;
+        background: rgba(88, 129, 87, 0.06);
+        transition: all 0.2s;
+      }
+      .leet-cta:hover {
+        background: var(--p2);
+        color: #f0f2ee;
+      }
+      .chart-wrap {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 16px rgba(58, 90, 64, 0.07);
+      }
+
+      /* EXPERIENCE */
+      #experience {
+        background: var(--bg2);
+      }
+      .tl {
+        display: flex;
+        flex-direction: column;
+      }
+      .tl-item {
+        display: grid;
+        grid-template-columns: 130px 24px 1fr;
+        gap: 0 1.25rem;
+        padding-bottom: 2.2rem;
+      }
+      .tl-date {
+        text-align: right;
+        padding-top: 0.2rem;
+      }
+      .tl-d {
+        font-size: 0.73rem;
+        color: var(--muted);
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      .tl-spine {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .tl-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid var(--p2);
+        background: var(--bg);
+        flex-shrink: 0;
+        margin-top: 0.2rem;
+        z-index: 1;
+      }
+      .tl-dot.hl {
+        background: var(--p1);
+        border-color: var(--p1);
+        box-shadow: 0 0 10px rgba(58, 90, 64, 0.4);
+      }
+      .tl-line-v {
+        width: 1px;
+        flex: 1;
+        background: var(--border);
+        margin: 4px 0;
+      }
+      .tl-body {
+        padding-top: 0.1rem;
+      }
+      .tl-title {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--a1);
+        margin-bottom: 0.1rem;
+      }
+      .tl-org {
+        font-size: 0.77rem;
+        color: var(--p2);
+        margin-bottom: 0.38rem;
+        font-weight: 600;
+      }
+      .tl-desc {
+        font-size: 0.81rem;
+        color: var(--text2);
+        line-height: 1.7;
+      }
+      .tl-tag {
+        display: inline-block;
+        margin-top: 0.4rem;
+        font-size: 0.66rem;
+        padding: 0.16rem 0.55rem;
+        border-radius: 4px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      .tag-intern {
+        background: #e4f0e8;
+        color: #1a4030;
+        border: 1px solid #b8d4c0;
+      }
+      .tag-lead {
+        background: #ece8f0;
+        color: #3a2a5a;
+        border: 1px solid #c8b8d8;
+      }
+      .tag-hack {
+        background: #f0e8e4;
+        color: #4a2010;
+        border: 1px solid #d4b0a0;
+      }
+      .tag-top {
+        background: #f0ece0;
+        color: #4a3010;
+        border: 1px solid #d4c890;
+      }
+
+      /* ACHIEVEMENTS */
+      #achievements {
+        background: var(--bg);
+      }
+      .ach-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+      }
+      .ach-card {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 1.15rem;
+        display: flex;
+        gap: 0.85rem;
+        align-items: flex-start;
+        transition:
+          border-color 0.2s,
+          transform 0.2s,
+          box-shadow 0.2s;
+        box-shadow: 0 1px 8px rgba(58, 90, 64, 0.06);
+      }
+      .ach-card:hover {
+        border-color: var(--p2);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(58, 90, 64, 0.12);
+      }
+      .ach-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.05rem;
+        flex-shrink: 0;
+        background: #e8f0e4;
+        border: 1.5px solid #c2d4bb;
+      }
+      .ach-t {
+        font-size: 0.86rem;
+        font-weight: 700;
+        color: var(--a1);
+        margin-bottom: 0.18rem;
+      }
+      .ach-s {
+        font-size: 0.75rem;
+        color: var(--text2);
+        line-height: 1.6;
+      }
+
+      /* CONTACT */
+      #contact {
+        background: var(--bg2);
+      }
+      .contact-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3.5rem;
+        align-items: start;
+      }
+      .contact-info h3 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin-bottom: 0.7rem;
+        color: var(--a1);
+      }
+      .contact-info p {
+        color: var(--text2);
+        font-size: 0.9rem;
+        line-height: 1.85;
+        margin-bottom: 1.2rem;
+      }
+      .contact-socials {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .soc-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.6rem 0.95rem;
+        border-radius: 8px;
+        border: 1.5px solid var(--border);
+        color: var(--text2);
+        text-decoration: none;
+        font-size: 0.83rem;
+        background: white;
+        transition: all 0.2s;
+        box-shadow: 0 1px 6px rgba(58, 90, 64, 0.05);
+      }
+      .soc-link:hover {
+        border-color: var(--p1);
+        color: var(--p1);
+        box-shadow: 0 4px 14px rgba(58, 90, 64, 0.12);
+      }
+      .soc-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .soc-icon svg {
+        width: 15px;
+        height: 15px;
+        fill: currentColor;
+      }
+      .soc-label {
+        flex: 1;
+      }
+      .soc-arrow {
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+      .contact-form {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 1.85rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 2px 16px rgba(58, 90, 64, 0.08);
+      }
+      .contact-form::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--p1), var(--p3));
+      }
+      .form-title {
+        font-size: 0.97rem;
+        font-weight: 700;
+        color: var(--a1);
+        margin-bottom: 1.2rem;
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.7rem;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        margin-bottom: 0.85rem;
+      }
+      .form-group label {
+        font-size: 0.72rem;
+        color: var(--muted);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        background: var(--bg);
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        padding: 0.6rem 0.8rem;
+        color: var(--text);
+        font-size: 0.86rem;
+        font-family: inherit;
+        transition: border-color 0.2s;
+        width: 100%;
+        resize: none;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: var(--p2);
+        background: white;
+      }
+      .form-group select option {
+        background: white;
+      }
+      .submit-btn {
+        width: 100%;
+        padding: 0.82rem;
+        border-radius: 8px;
+        border: none;
+        background: var(--p1);
+        color: #f0f2ee;
+        font-size: 0.88rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.25s;
+        letter-spacing: 0.5px;
+        font-family: inherit;
+      }
+      .submit-btn:hover {
+        background: var(--a1);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(58, 90, 64, 0.25);
+      }
+      .submit-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .form-msg {
+        margin-top: 0.7rem;
+        padding: 0.6rem 0.9rem;
+        border-radius: 7px;
+        font-size: 0.8rem;
+        text-align: center;
+        display: none;
+      }
+      .form-msg.ok {
+        background: #e4f0e8;
+        border: 1px solid #b8d4c0;
+        color: #1a4030;
+        display: block;
+      }
+      .form-msg.err {
+        background: #f0e8e4;
+        border: 1px solid #d4b0a0;
+        color: #5a2010;
+        display: block;
+      }
+
+      footer {
+        background: var(--p1);
+        padding: 1.4rem 2rem;
+        text-align: center;
+      }
+      .foot-txt {
+        font-size: 0.76rem;
+        color: rgba(240, 242, 238, 0.7);
+      }
+      .foot-txt span {
+        color: #dad7cd;
+        font-weight: 600;
+      }
+
+      .fi {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease;
+      }
+      .fi.vis {
+        opacity: 1;
+        transform: none;
+      }
+
+      @media (max-width: 768px) {
+        .about-grid,
+        .skills-layout,
+        .leet-layout,
+        .contact-layout {
+          grid-template-columns: 1fr;
+        }
+        .skill-cats {
+          grid-template-columns: 1fr;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        .nav-links {
+          display: none;
+        }
+        .stat-box {
+          padding: 0.9rem 0.8rem;
+        }
+        .tl-item {
+          grid-template-columns: 72px 20px 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="nav-inner">
+        <div class="logo">dishambha<span>.dev</span></div>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#leetcode">LeetCode</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#contact" class="hire-btn">Hire Me</a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-blobs">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+      </div>
+      <div class="grid-lines"></div>
+      <div class="hero-content fi">
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          Open to Opportunities · B.Tech CSE 2026 · BBDU Lucknow
+        </div>
+        <h1 class="hero-name">
+          <span class="grad-text">Dishambha Awasthi</span>
+        </h1>
+        <div class="hero-sub">Software Engineer</div>
+        <div class="hero-role"><span id="typed"></span></div>
+        <p class="hero-desc">
+          Final-year B.Tech CSE student passionate about transforming raw data
+          into powerful insights. I build ML models, interactive dashboards,
+          scalable APIs, and AI-powered tools that solve real-world problems.
+        </p>
+        <div class="hero-btns">
+          <a href="#projects" class="btn btn-solid">View Projects ↓</a>
+          <a
+            href="https://github.com/dishambha"
+            target="_blank"
+            class="btn btn-outline"
+            >GitHub</a
+          >
+          <a
+            href="https://leetcode.com/u/dishambha_awasthi/"
+            target="_blank"
+            class="btn btn-outline"
+            >LeetCode</a
+          >
+          <a href="#contact" class="btn btn-outline">Contact Me</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-box">
+            <div class="stat-n">129</div>
+            <div class="stat-l">LeetCode Solved</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-n">10+</div>
+            <div class="stat-l">Projects Built</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-n">Top 300</div>
+            <div class="stat-l">HackWithUP</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-n">2026</div>
+            <div class="stat-l">Graduation</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="sec-wrap">
+        <div class="about-grid">
+          <div class="fi">
+            <div class="sec-eyebrow">About Me</div>
+            <h2 class="sec-title">Who I Am</h2>
+            <div class="bar"></div>
+            <div class="about-text">
+              <p>
+                I'm a final-year
+                <span class="hl">B.Tech Computer Science student</span> at Babu
+                Banarasi Das University, Lucknow — a data enthusiast who finds
+                beauty in patterns hidden inside messy datasets.
+              </p>
+              <p>
+                From building <span class="hl">ML prediction models</span> and
+                <span class="hl">AI-powered legal assistants</span> to designing
+                scalable <span class="hl">FastAPI backends</span> and
+                interactive <span class="hl">Power BI dashboards</span>, I
+                thrive at the intersection of data engineering and applied ML.
+              </p>
+              <p>
+                Beyond code, I've led teams of 12+ at university tech fests,
+                competed in <span class="hl">Smart India Hackathon</span>,
+                <span class="hl">RIFT 2026</span>, and placed in the
+                <span class="hl">top 300 of 25,000+</span> at
+                HackWithUttarPradesh.
+              </p>
+            </div>
+            <div class="about-links">
+              <a
+                href="https://github.com/dishambha"
+                target="_blank"
+                class="link-chip"
+                >⬡ GitHub</a
+              >
+              <a
+                href="https://www.linkedin.com/in/dishambha-awasthi/"
+                target="_blank"
+                class="link-chip"
+                >◈ LinkedIn</a
+              >
+              <a
+                href="https://leetcode.com/u/dishambha_awasthi/"
+                target="_blank"
+                class="link-chip"
+                >◉ LeetCode</a
+              >
+              <a href="mailto:dishambhaawasthi0131@gmail.com" class="link-chip"
+                >✉ Email</a
+              >
+            </div>
+          </div>
+          <div class="fi">
+            <div class="about-card">
+              <div class="info-row">
+                <span class="ik">NAME</span
+                ><span class="iv">Dishambha Awasthi</span>
+              </div>
+              <div class="info-row">
+                <span class="ik">LOCATION</span
+                ><span class="iv">Lucknow, UP, India</span>
+              </div>
+              <div class="info-row">
+                <span class="ik">DEGREE</span><span class="iv">B.Tech CSE</span>
+              </div>
+              <div class="info-row">
+                <span class="ik">UNIVERSITY</span
+                ><span class="iv">BBDU, Lucknow</span>
+              </div>
+              <div class="info-row">
+                <span class="ik">GRADUATION</span><span class="iv">2026</span>
+              </div>
+              <div class="info-row">
+                <span class="ik">PHONE</span
+                ><span class="iv">+91 9369879498</span>
+              </div>
+              <div class="info-row">
+                <span class="ik">EMAIL</span
+                ><span class="iv"
+                  ><a href="mailto:dishambhaawasthi0131@gmail.com"
+                    >dishambhaawasthi0131@gmail.com</a
+                  ></span
+                >
+              </div>
+              <div class="info-row">
+                <span class="ik">LINKEDIN</span
+                ><span class="iv"
+                  ><a
+                    href="https://www.linkedin.com/in/dishambha-awasthi/"
+                    target="_blank"
+                    >dishambha-awasthi</a
+                  ></span
+                >
+              </div>
+              <div class="info-row">
+                <span class="ik">CERTIFICATION</span
+                ><span class="iv" style="color: var(--amber); font-weight: 700"
+                  >IBM Data Science</span
+                >
+              </div>
+              <div class="info-row">
+                <span class="ik">STATUS</span
+                ><span class="iv open-tag">⬤ Open to Opportunities</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="sec-wrap">
+        <div class="fi">
+          <div class="sec-eyebrow">Expertise</div>
+          <h2 class="sec-title">Technical Skills</h2>
+          <div class="bar"></div>
+        </div>
+        <div class="skills-layout">
+          <div class="skill-cats fi">
+            <div class="skill-card">
+              <div class="sk-cat">Languages</div>
+              <div class="tags">
+                <span class="tag tp">Python</span><span class="tag tp">C++</span
+                ><span class="tag tp">C</span><span class="tag tp">SQL</span
+                ><span class="tag tp">HTML/CSS</span>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="sk-cat">Data & Analytics</div>
+              <div class="tags">
+                <span class="tag tc">Pandas</span
+                ><span class="tag tc">NumPy</span
+                ><span class="tag tc">Matplotlib</span
+                ><span class="tag tc">Seaborn</span
+                ><span class="tag tc">Power BI</span
+                ><span class="tag tc">Excel</span>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="sk-cat">Machine Learning</div>
+              <div class="tags">
+                <span class="tag tg">Scikit-learn</span
+                ><span class="tag tg">Linear Regression</span
+                ><span class="tag tg">Feature Eng.</span
+                ><span class="tag tg">Model Eval.</span>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="sk-cat">Web & Backend</div>
+              <div class="tags">
+                <span class="tag ta">FastAPI</span
+                ><span class="tag ta">Django</span
+                ><span class="tag ta">REST APIs</span
+                ><span class="tag ta">Streamlit</span
+                ><span class="tag ta">Postman</span>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="sk-cat">Databases & Tools</div>
+              <div class="tags">
+                <span class="tag tb">MySQL</span
+                ><span class="tag tb">MongoDB</span
+                ><span class="tag tb">Git/GitHub</span
+                ><span class="tag tb">Jupyter</span
+                ><span class="tag tb">VS Code</span>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="sk-cat">Core CS</div>
+              <div class="tags">
+                <span class="tag tr">DSA</span><span class="tag tr">OOP</span
+                ><span class="tag tr">ETL</span><span class="tag tr">DBMS</span
+                ><span class="tag tr">Problem Solving</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart-box fi">
+            <div class="chart-title">Skill Proficiency Radar</div>
+            <canvas id="radarChart" height="255"></canvas>
+            <div style="margin-top: 1.5rem">
+              <div class="chart-title">Language Usage Distribution</div>
+              <canvas id="donutChart" height="180"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="sec-wrap">
+        <div class="fi">
+          <div class="sec-eyebrow">Work</div>
+          <h2 class="sec-title">Projects</h2>
+          <div class="bar"></div>
+        </div>
+        <div class="proj-filter fi">
+          <button class="filt active" onclick="filterProj('all', this)">
+            All
+          </button>
+          <button class="filt" onclick="filterProj('ml', this)">
+            Machine Learning
+          </button>
+          <button class="filt" onclick="filterProj('da', this)">
+            Data Analytics
+          </button>
+          <button class="filt" onclick="filterProj('ai', this)">
+            AI / NLP
+          </button>
+          <button class="filt" onclick="filterProj('api', this)">
+            Backend / API
+          </button>
+          <button class="filt" onclick="filterProj('bi', this)">
+            BI / Dashboard
+          </button>
+        </div>
+        <div class="proj-grid" id="projGrid">
+          <div class="proj-card fi" data-cat="ml">
+            <span class="proj-badge badge-ml">ML</span>
+            <div class="proj-header">
+              <div class="proj-icon-wrap" style="background: #ece8f4">🤖</div>
+              <div class="proj-links">
+                <a
+                  class="proj-link"
+                  href="https://github.com/dishambha/Full-Stack-Car-Price-prediction-model"
+                  target="_blank"
+                  title="GitHub"
+                  >⌥</a
+                >
+                <a
+                  class="proj-link"
+                  href="https://full-stack-car-price-prediction-model-6v7sr9gkzqfg2rps2mfqug.streamlit.app/"
+                  target="_blank"
+                  title="Live Demo"
+                  >↗</a
+                >
+              </div>
+            </div>
+            <div class="proj-title">Car Price Prediction System</div>
+            <div class="proj-desc">
+              Full-stack ML model using Linear Regression to predict car prices,
+              deployed on Streamlit.
+            </div>
+            <ul class="proj-bullets">
+              <li>Data cleaning, feature engineering & preprocessing</li>
+              <li>Hyperparameter tuning & cross-validation</li>
+              <li>Feature importance visualizations</li>
+            </ul>
+            <div class="proj-tags">
+              <span class="ptag">Python</span><span class="ptag">Pandas</span
+              ><span class="ptag">Scikit-learn</span
+              ><span class="ptag">Streamlit</span>
+            </div>
+          </div>
+          <div class="proj-card fi" data-cat="ai">
+            <span class="proj-badge badge-ai">AI</span>
+            <div class="proj-header">
+              <div class="proj-icon-wrap" style="background: #f4ece8">⚖️</div>
+              <div class="proj-links">
+                <a
+                  class="proj-link"
+                  href="https://github.com/dishambha/NyayaGPT"
+                  target="_blank"
+                  title="GitHub"
+                  >⌥</a
+                >
+                <a
+                  class="proj-link"
+                  href="https://nyayagpt-ten.vercel.app/"
+                  target="_blank"
+                  title="Live Demo"
+                  >↗</a
+                >
+              </div>
+            </div>
+            <div class="proj-title">NyayaGPT – Legal Assistant AI</div>
+            <div class="proj-desc">
+              AI-powered legal assistant providing query-based legal information
+              and guidance using NLP and FastAPI.
+            </div>
+            <ul class="proj-bullets">
+              <li>FastAPI backend with scalable architecture</li>
+              <li>NLP for understanding legal queries</li>
+              <li>Multi-user interaction support</li>
+            </ul>
+            <div class="proj-tags">
+              <span class="ptag">Python</span><span class="ptag">FastAPI</span
+              ><span class="ptag">NLP</span><span class="ptag">Vercel</span>
+            </div>
+          </div>
+          <div class="proj-card fi" data-cat="bi">
+            <span class="proj-badge badge-bi">BI</span>
+            <div class="proj-header">
+              <div class="proj-icon-wrap" style="background: #f4f0e4">📊</div>
+              <div class="proj-links">
+                <a
+                  class="proj-link"
+                  href="https://github.com/dishambha/powerbi-sales-dashboard"
+                  target="_blank"
+                  title="GitHub"
+                  >⌥</a
+                >
+                <a
+                  class="proj-link"
+                  href="https://app.powerbi.com/links/6zjTi2jG7s?ctid=8090291b-ebcc-4bdf-bde1-cbacbb7c25a9&pbi_source=linkShare"
+                  target="_blank"
+                  title="Live Dashboard"
+                  >↗</a
+                >
+              </div>
+            </div>
+            <div class="proj-title">Power BI Sales Dashboard</div>
+            <div class="proj-desc">
+              Interactive Power BI dashboard analyzing sales performance and key
+              business metrics.
+            </div>
+            <ul class="proj-bullets">
+              <li>Dynamic KPIs with region, category & time filters</li>
+              <li>Advanced DAX: YoY growth & running totals</li>
+              <li>Decision-support interactive visualizations</li>
+            </ul>
+            <div class="proj-tags">
+              <span class="ptag">Power BI</span><span class="ptag">DAX</span
+              ><span class="ptag">Excel</span>
+            </div>
+          </div>
+          <div class="proj-card fi" data-cat="da">
+            <span class="proj-badge badge-da">EDA</span>
+            <div class="proj-header">
+              <div class="proj-icon-wrap" style="background: #eef4e8">🪔</div>
+              <div class="proj-links">
+                <a
+                  class="proj-link"
+                  href="https://github.com/dishambha/Diwali_Sales_Analysis"
+                  target="_blank"
+                  title="GitHub"
+                  >⌥</a
+                >
+                <a class="proj-link disabled" href="#" title="No live demo"
+                  >↗</a
+                >
+              </div>
+            </div>
+            <div class="proj-title">Diwali Sales Analysis</div>
+            <div class="proj-desc">
+              EDA on 11,000+ records to uncover customer purchasing behavior and
+              key segments.
+            </div>
+            <ul class="proj-bullets">
+              <li>Segmentation by age, gender, location & occupation</li>
+              <li>Actionable insights for marketing & inventory</li>
+              <li>Visual reports with Matplotlib & Seaborn</li>
+            </ul>
+            <div class="proj-tags">
+              <span class="ptag">Python</span><span class="ptag">Pandas</span
+              ><span class="ptag">Matplotlib</span
+              ><span class="ptag">Seaborn</span>
+            </div>
+          </div>
+          <div class="proj-card fi" data-cat="da">
+            <span class="proj-badge badge-da">EDA</span>
+            <div class="proj-header">
+              <div class="proj-icon-wrap" style="background: #e8eff4">🌤️</div>
+              <div class="proj-links">
+                <a
+                  class="proj-link"
+                  href="https://github.com/dishambha/Weather-Data-Analytics-Project"
+                  target="_blank"
+                  title="GitHub"
+                  >⌥</a
+                >
+                <a class="proj-link disabled" href="#" title="No live demo"
+                  >↗</a
+                >
+              </div>
+            </div>
+            <div class="proj-title">Weather Data Analytics</div>
+            <div class="proj-desc">
+              Trend analysis and seasonal pattern detection on large-scale
+              weather datasets.
+            </div>
+            <ul class="proj-bullets">
+              <li>Data cleaning & validation pipeline</li>
+              <li>Anomaly detection & seasonal trend analysis</li>
+              <li>Temperature, humidity & variation visualizations</li>
+            </ul>
+            <div class="proj-tags">
+              <span class="ptag">Python</span><span class="ptag">Pandas</span
+              ><span class="ptag">Matplotlib</span>
+            </div>
+          </div>
+          <div class="proj-card fi" data-cat="ai">
+            <span class="proj-badge badge-ai">Hackathon</span>
+            <div class="proj-header">
+              <div class="proj-icon-wrap" style="background: #f4e8ec">🧬</div>
+              <div class="proj-links">
+                <a
+                  class="proj-link"
+                  href="https://github.com/dishambha/HelixSutra"
+                  target="_blank"
+                  title="GitHub"
+                  >⌥</a
+                >
+                <a
+                  class="proj-link"
+                  href="https://helixsutra.netlify.app/"
+                  target="_blank"
+                  title="Live Demo"
+                  >↗</a
+                >
+              </div>
+            </div>
+            <div class="proj-title">HelixSutra – RIFT 2026</div>
+            <div class="proj-desc">
+              AI-driven solution developed at RIFT 2026 Hackathon focused on
+              innovative problem solving.
+            </div>
+            <ul class="proj-bullets">
+              <li>Built under tight hackathon deadline</li>
+              <li>AI-driven core architecture</li>
+              <li>Team collaboration & rapid prototyping</li>
+            </ul>
+            <div class="proj-tags">
+              <span class="ptag">Python</span><span class="ptag">AI</span
+              ><span class="ptag">FastAPI</span
+              ><span class="ptag">Netlify</span>
+            </div>
+          </div>
+          <div class="proj-card fi" data-cat="api">
+            <span class="proj-badge badge-api">API</span>
+            <div class="proj-header">
+              <div class="proj-icon-wrap" style="background: #e8f4ee">📜</div>
+              <div class="proj-links">
+                <a
+                  class="proj-link"
+                  href="https://github.com/dishambha/constitution-backend-api"
+                  target="_blank"
+                  title="GitHub"
+                  >⌥</a
+                >
+                <a class="proj-link disabled" href="#" title="Backend only"
+                  >↗</a
+                >
+              </div>
+            </div>
+            <div class="proj-title">Constitution Info API</div>
+            <div class="proj-desc">
+              Backend-first API platform providing structured access to the
+              Indian Constitution — Parts, Articles, Schedules & Preamble.
+            </div>
+            <ul class="proj-bullets">
+              <li>Clean architecture & scalable backend design</li>
+              <li>Full coverage of Parts, Articles & Schedules</li>
+              <li>RESTful API with real-world design principles</li>
+            </ul>
+            <div class="proj-tags">
+              <span class="ptag">Python</span><span class="ptag">FastAPI</span
+              ><span class="ptag">REST API</span>
+            </div>
+          </div>
+          <div class="proj-card fi" data-cat="api">
+            <span
+              class="proj-badge badge-web"
+              style="background: #e8ecf4; color: #2a3a5a"
+              >Web</span
+            >
+            <div class="proj-header">
+              <div class="proj-icon-wrap" style="background: #e8ecf4">💬</div>
+              <div class="proj-links">
+                <a
+                  class="proj-link"
+                  href="https://github.com/dishambha/personal-messages-board"
+                  target="_blank"
+                  title="GitHub"
+                  >⌥</a
+                >
+                <a
+                  class="proj-link"
+                  href="https://beamish-phoenix-fbee7b.netlify.app/"
+                  target="_blank"
+                  title="Live Demo"
+                  >↗</a
+                >
+              </div>
+            </div>
+            <div class="proj-title">Personal Message Board</div>
+            <div class="proj-desc">
+              Modern web app where people write messages with emotions. FastAPI
+              backend + vanilla JS frontend.
+            </div>
+            <ul class="proj-bullets">
+              <li>Emotion-based message posting with anonymous option</li>
+              <li>Real-time message display</li>
+              <li>Fully responsive beautiful UI</li>
+            </ul>
+            <div class="proj-tags">
+              <span class="ptag">FastAPI</span
+              ><span class="ptag">JavaScript</span
+              ><span class="ptag">Netlify</span>
+            </div>
+          </div>
+          <div class="proj-card fi" data-cat="api">
+            <span class="proj-badge badge-api">API</span>
+            <div class="proj-header">
+              <div class="proj-icon-wrap" style="background: #eef4e8">🎓</div>
+              <div class="proj-links">
+                <a
+                  class="proj-link"
+                  href="https://github.com/dishambha/learnbuddy-api"
+                  target="_blank"
+                  title="GitHub"
+                  >⌥</a
+                >
+                <a class="proj-link disabled" href="#" title="No live demo"
+                  >↗</a
+                >
+              </div>
+            </div>
+            <div class="proj-title">LearnBuddy API</div>
+            <div class="proj-desc">
+              Scalable backend for a learning platform with recommendation logic
+              to personalize learning resources.
+            </div>
+            <ul class="proj-bullets">
+              <li>Efficient content delivery via RESTful APIs</li>
+              <li>Personalized recommendation engine</li>
+              <li>Scalable FastAPI architecture</li>
+            </ul>
+            <div class="proj-tags">
+              <span class="ptag">Python</span><span class="ptag">FastAPI</span
+              ><span class="ptag">REST API</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEETCODE -->
+    <section id="leetcode">
+      <div class="sec-wrap">
+        <div class="fi">
+          <div class="sec-eyebrow">Problem Solving</div>
+          <h2 class="sec-title">LeetCode Stats</h2>
+          <div class="bar"></div>
+        </div>
+        <div class="leet-layout">
+          <div class="fi">
+            <div class="leet-total">
+              <div class="leet-total-n">129</div>
+              <div class="leet-label">Total Problems Solved</div>
+            </div>
+            <div class="leet-stats">
+              <div class="leet-stat">
+                <div class="leet-n leet-e">52</div>
+                <div class="leet-label">Easy</div>
+              </div>
+              <div class="leet-stat">
+                <div class="leet-n leet-m">68</div>
+                <div class="leet-label">Medium</div>
+              </div>
+              <div class="leet-stat">
+                <div class="leet-n leet-h">9</div>
+                <div class="leet-label">Hard</div>
+              </div>
+            </div>
+            <div class="skill-section">
+              <div class="skill-section-title">Advanced</div>
+              <div class="skill-pills">
+                <span class="skill-pill sp-adv">Dynamic Programming ×9</span
+                ><span class="skill-pill sp-adv">Backtracking ×4</span
+                ><span class="skill-pill sp-adv">Divide & Conquer ×4</span
+                ><span class="skill-pill sp-adv">Monotonic Stack ×3</span
+                ><span class="skill-pill sp-adv">Trie ×1</span
+                ><span class="skill-pill sp-adv">Union-Find ×1</span>
+              </div>
+            </div>
+            <div class="skill-section">
+              <div class="skill-section-title">Intermediate</div>
+              <div class="skill-pills">
+                <span class="skill-pill sp-int">Binary Search ×24</span
+                ><span class="skill-pill sp-int">Hash Table ×21</span
+                ><span class="skill-pill sp-int">Math ×20</span
+                ><span class="skill-pill sp-int">Sliding Window ×10</span
+                ><span class="skill-pill sp-int">Database ×9</span
+                ><span class="skill-pill sp-int">Greedy ×8</span
+                ><span class="skill-pill sp-int">Bit Manipulation ×7</span
+                ><span class="skill-pill sp-int">Recursion ×6</span>
+              </div>
+            </div>
+            <div class="skill-section">
+              <div class="skill-section-title">Fundamental</div>
+              <div class="skill-pills">
+                <span class="skill-pill sp-fun">Array ×70</span
+                ><span class="skill-pill sp-fun">Two Pointers ×26</span
+                ><span class="skill-pill sp-fun">Linked List ×23</span
+                ><span class="skill-pill sp-fun">String ×16</span
+                ><span class="skill-pill sp-fun">Sorting ×15</span
+                ><span class="skill-pill sp-fun">Matrix ×11</span
+                ><span class="skill-pill sp-fun">Stack ×8</span
+                ><span class="skill-pill sp-fun">Simulation ×8</span>
+              </div>
+            </div>
+            <a
+              href="https://leetcode.com/u/dishambha_awasthi/"
+              target="_blank"
+              class="leet-cta"
+              >View LeetCode profile ↗</a
+            >
+            <br /><br />
+            <a
+              href="https://github.com/dishambha/leetcode-questions"
+              target="_blank"
+              class="leet-cta"
+              >All solutions on GitHub ↗</a
+            >
+          </div>
+          <div class="chart-wrap fi">
+            <div class="chart-title" style="margin-bottom: 1.2rem">
+              Topic Breakdown
+            </div>
+            <canvas id="leetBarChart" height="330"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="sec-wrap">
+        <div class="fi">
+          <div class="sec-eyebrow">Journey</div>
+          <h2 class="sec-title">Experience & Training</h2>
+          <div class="bar"></div>
+        </div>
+        <div class="tl">
+          <div class="tl-item fi">
+            <div class="tl-date"><div class="tl-d">JUL 2025</div></div>
+            <div class="tl-spine">
+              <div class="tl-dot hl"></div>
+              <div class="tl-line-v"></div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">Data Science Intern</div>
+              <div class="tl-org">Grastech</div>
+              <div class="tl-desc">
+                Data analysis & preprocessing with Python and Excel. Real-world
+                EDA workflows, data cleaning, validation, and business
+                problem-solving.
+              </div>
+              <span class="tl-tag tag-intern">Internship</span>
+            </div>
+          </div>
+          <div class="tl-item fi">
+            <div class="tl-date"><div class="tl-d">2026</div></div>
+            <div class="tl-spine">
+              <div class="tl-dot hl"></div>
+              <div class="tl-line-v"></div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">Team Head – DBM & Registrations</div>
+              <div class="tl-org">Utkarsh 2026 Fest · BBDU</div>
+              <div class="tl-desc">
+                Led 12+ members overseeing database management, participant
+                registration, and large-scale event coordination.
+              </div>
+              <span class="tl-tag tag-lead">Leadership</span>
+            </div>
+          </div>
+          <div class="tl-item fi">
+            <div class="tl-date"><div class="tl-d">2026</div></div>
+            <div class="tl-spine">
+              <div class="tl-dot"></div>
+              <div class="tl-line-v"></div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">RIFT 2026 Hackathon – HelixSutra</div>
+              <div class="tl-org">University-Level Hackathon</div>
+              <div class="tl-desc">
+                Developed HelixSutra, an innovative AI-driven solution. Live at
+                helixsutra.netlify.app.
+              </div>
+              <span class="tl-tag tag-hack">Hackathon</span>
+            </div>
+          </div>
+          <div class="tl-item fi">
+            <div class="tl-date"><div class="tl-d">2025</div></div>
+            <div class="tl-spine">
+              <div class="tl-dot hl"></div>
+              <div class="tl-line-v"></div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">HackWithUttarPradesh</div>
+              <div class="tl-org">State-Level · 25,000+ Registrations</div>
+              <div class="tl-desc">
+                Selected among top 300 teams out of 25,000+ participants.
+              </div>
+              <span class="tl-tag tag-top">Top 300 / 25,000+</span>
+            </div>
+          </div>
+          <div class="tl-item fi">
+            <div class="tl-date"><div class="tl-d">2025</div></div>
+            <div class="tl-spine">
+              <div class="tl-dot"></div>
+              <div class="tl-line-v"></div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">Coordinator – DBM Team</div>
+              <div class="tl-org">Utkarsh 2025 Fest · BBDU</div>
+              <div class="tl-desc">
+                Led 10+ members managing database operations and event
+                coordination.
+              </div>
+              <span class="tl-tag tag-lead">Leadership</span>
+            </div>
+          </div>
+          <div class="tl-item fi">
+            <div class="tl-date"><div class="tl-d">NOV 2024</div></div>
+            <div class="tl-spine">
+              <div class="tl-dot"></div>
+              <div class="tl-line-v"></div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">Soft Skills Training</div>
+              <div class="tl-org">Learnovate Enterprises</div>
+              <div class="tl-desc">
+                Workshops on professional communication, presentation skills,
+                and teamwork strategies.
+              </div>
+            </div>
+          </div>
+          <div class="tl-item fi">
+            <div class="tl-date"><div class="tl-d">2024</div></div>
+            <div class="tl-spine">
+              <div class="tl-dot"></div>
+              <div class="tl-line-v"></div>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">Smart India Hackathon (SIH)</div>
+              <div class="tl-org">National Level · Hacked 3.0</div>
+              <div class="tl-desc">
+                Participated in India's largest hackathon building real-world
+                solutions under pressure.
+              </div>
+              <span class="tl-tag tag-hack">National Hackathon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section id="achievements" style="background: var(--bg2)">
+      <div class="sec-wrap">
+        <div class="fi">
+          <div class="sec-eyebrow">Recognition</div>
+          <h2 class="sec-title">Achievements</h2>
+          <div class="bar"></div>
+        </div>
+        <div class="ach-grid">
+          <div class="ach-card fi">
+            <div class="ach-icon">🏆</div>
+            <div>
+              <div class="ach-t">IBM Data Science Certified</div>
+              <div class="ach-s">
+                Hands-on ML, data analysis, and visualization.
+              </div>
+            </div>
+          </div>
+          <div class="ach-card fi">
+            <div class="ach-icon">💡</div>
+            <div>
+              <div class="ach-t">129 LeetCode Problems</div>
+              <div class="ach-s">
+                52 Easy · 68 Medium · 9 Hard — consistent grind.
+              </div>
+            </div>
+          </div>
+          <div class="ach-card fi">
+            <div class="ach-icon">🚀</div>
+            <div>
+              <div class="ach-t">Top 300 – HackWithUP</div>
+              <div class="ach-s">
+                Selected from 25,000+ at state-level hackathon.
+              </div>
+            </div>
+          </div>
+          <div class="ach-card fi">
+            <div class="ach-icon">👨‍💼</div>
+            <div>
+              <div class="ach-t">Team Head – Utkarsh 2026</div>
+              <div class="ach-s">Led 12+ members for DBM & Registrations.</div>
+            </div>
+          </div>
+          <div class="ach-card fi">
+            <div class="ach-icon">🧬</div>
+            <div>
+              <div class="ach-t">RIFT 2026 – HelixSutra</div>
+              <div class="ach-s">
+                Built & deployed AI solution at hackathon.
+              </div>
+            </div>
+          </div>
+          <div class="ach-card fi">
+            <div class="ach-icon">⚡</div>
+            <div>
+              <div class="ach-t">Smart India Hackathon</div>
+              <div class="ach-s">
+                National-level participant, SIH & Hacked 3.0.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="sec-wrap">
+        <div class="fi">
+          <div class="sec-eyebrow">Let's Connect</div>
+          <h2 class="sec-title">Get In Touch</h2>
+          <div class="bar"></div>
+        </div>
+        <div class="contact-layout">
+          <div class="fi">
+            <div class="contact-info">
+              <h3>
+                Open to <span style="color: var(--p2)">Opportunities</span>
+              </h3>
+              <p>
+                Whether you have a job offer, project collaboration, internship,
+                or just want to say hi — my inbox is always open. I typically
+                respond within 24 hours.
+              </p>
+            </div>
+            <div class="contact-socials">
+              <a href="mailto:dishambhaawasthi0131@gmail.com" class="soc-link">
+                <div
+                  class="soc-icon"
+                  style="background: #e4f0e8; color: #2a5a3a"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                    />
+                  </svg>
+                </div>
+                <div class="soc-label">
+                  <div
+                    style="
+                      font-size: 0.82rem;
+                      font-weight: 700;
+                      color: var(--a1);
+                    "
+                  >
+                    Email
+                  </div>
+                  <div style="font-size: 0.72rem; color: var(--muted)">
+                    dishambhaawasthi0131@gmail.com
+                  </div>
+                </div>
+                <span class="soc-arrow">↗</span>
+              </a>
+              <a
+                href="https://wa.me/919369879498"
+                target="_blank"
+                class="soc-link"
+              >
+                <div
+                  class="soc-icon"
+                  style="background: #e4f0e8; color: #2a5a3a"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+                    />
+                  </svg>
+                </div>
+                <div class="soc-label">
+                  <div
+                    style="
+                      font-size: 0.82rem;
+                      font-weight: 700;
+                      color: var(--a1);
+                    "
+                  >
+                    WhatsApp
+                  </div>
+                  <div style="font-size: 0.72rem; color: var(--muted)">
+                    +91 9369879498
+                  </div>
+                </div>
+                <span class="soc-arrow">↗</span>
+              </a>
+              <a
+                href="https://github.com/dishambha"
+                target="_blank"
+                class="soc-link"
+              >
+                <div
+                  class="soc-icon"
+                  style="background: #eeeaf4; color: #3a2a5a"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+                    />
+                  </svg>
+                </div>
+                <div class="soc-label">
+                  <div
+                    style="
+                      font-size: 0.82rem;
+                      font-weight: 700;
+                      color: var(--a1);
+                    "
+                  >
+                    GitHub
+                  </div>
+                  <div style="font-size: 0.72rem; color: var(--muted)">
+                    github.com/dishambha
+                  </div>
+                </div>
+                <span class="soc-arrow">↗</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/dishambha-awasthi/"
+                target="_blank"
+                class="soc-link"
+              >
+                <div
+                  class="soc-icon"
+                  style="background: #e4ecf4; color: #1a3a5a"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                    />
+                  </svg>
+                </div>
+                <div class="soc-label">
+                  <div
+                    style="
+                      font-size: 0.82rem;
+                      font-weight: 700;
+                      color: var(--a1);
+                    "
+                  >
+                    LinkedIn
+                  </div>
+                  <div style="font-size: 0.72rem; color: var(--muted)">
+                    dishambha-awasthi
+                  </div>
+                </div>
+                <span class="soc-arrow">↗</span>
+              </a>
+              <a
+                href="https://leetcode.com/u/dishambha_awasthi/"
+                target="_blank"
+                class="soc-link"
+              >
+                <div
+                  class="soc-icon"
+                  style="background: #f4f0e4; color: #4a3810"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"
+                    />
+                  </svg>
+                </div>
+                <div class="soc-label">
+                  <div
+                    style="
+                      font-size: 0.82rem;
+                      font-weight: 700;
+                      color: var(--a1);
+                    "
+                  >
+                    LeetCode
+                  </div>
+                  <div style="font-size: 0.72rem; color: var(--muted)">
+                    dishambha_awasthi · 129 solved
+                  </div>
+                </div>
+                <span class="soc-arrow">↗</span>
+              </a>
+            </div>
+          </div>
+          <div class="contact-form fi">
+            <div class="form-title">Send Me a Message</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Name</label
+                ><input type="text" id="fname" placeholder="Your name" />
+              </div>
+              <div class="form-group">
+                <label>Email</label
+                ><input type="email" id="femail" placeholder="you@email.com" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Type</label
+              ><select id="ftype">
+                <option value="opportunity">Job Opportunity</option>
+                <option value="project">Project Collaboration</option>
+                <option value="query">General Query</option>
+                <option value="review">Review / Feedback</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Subject</label
+              ><input
+                type="text"
+                id="fsubject"
+                placeholder="What's this about?"
+              />
+            </div>
+            <div class="form-group">
+              <label>Message</label
+              ><textarea
+                id="fmessage"
+                rows="4"
+                placeholder="Write your message here..."
+              ></textarea>
+            </div>
+            <button class="submit-btn" id="submitBtn" onclick="handleSubmit()">
+              Send Message →
+            </button>
+            <div class="form-msg" id="formMsg"></div>
+            <p
+              style="
+                font-size: 0.7rem;
+                color: var(--muted);
+                margin-top: 0.7rem;
+                text-align: center;
+              "
+            >
+              Messages are stored in DB and forwarded via the Python backend.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="foot-txt">
+        Built by <span>Dishambha Awasthi</span> · B.Tech CSE 2026 · BBDU Lucknow
+        · <span>dishambhaawasthi0131@gmail.com</span>
+      </div>
+    </footer>
+
+    <script>
+      /* TYPED */
+      const roles = [
+        "Data Analyst",
+        "ML Engineer",
+        "FastAPI Developer",
+        "Python Developer",
+        "Backend Engineer",
+        "Problem Solver",
+      ];
+      let ri = 0,
+        ci = 0,
+        del = false;
+      const tel = document.getElementById("typed");
+      function type() {
+        const w = roles[ri];
+        tel.textContent = del ? w.slice(0, ci--) : w.slice(0, ci++);
+        if (!del && ci > w.length) {
+          del = true;
+          setTimeout(type, 1400);
+          return;
+        }
+        if (del && ci < 0) {
+          del = false;
+          ri = (ri + 1) % roles.length;
+          ci = 0;
+          setTimeout(type, 400);
+          return;
+        }
+        setTimeout(type, del ? 55 : 95);
+      }
+      type();
+
+      /* OBSERVER */
+      const obs = new IntersectionObserver(
+        (es) => {
+          es.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("vis");
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document.querySelectorAll(".fi").forEach((el) => obs.observe(el));
+
+      /* FILTER */
+      function filterProj(cat, btn) {
+        document
+          .querySelectorAll(".filt")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll(".proj-card").forEach((c) => {
+          c.style.display =
+            cat === "all" || c.dataset.cat === cat ? "flex" : "none";
+        });
+      }
+
+      /* CONTACT */
+      async function handleSubmit() {
+        const name = document.getElementById("fname").value.trim();
+        const email = document.getElementById("femail").value.trim();
+        const type = document.getElementById("ftype").value;
+        const subject = document.getElementById("fsubject").value.trim();
+        const message = document.getElementById("fmessage").value.trim();
+        const msg = document.getElementById("formMsg");
+        const btn = document.getElementById("submitBtn");
+        if (!name || !email || !message) {
+          msg.className = "form-msg err";
+          msg.textContent = "Please fill in Name, Email, and Message.";
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+        try {
+          const res = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, type, subject, message }),
+          });
+          if (res.ok) {
+            msg.className = "form-msg ok";
+            msg.textContent =
+              "Message sent! I'll get back to you within 24 hours.";
+            ["fname", "femail", "fsubject", "fmessage"].forEach(
+              (id) => (document.getElementById(id).value = ""),
+            );
+          } else throw new Error();
+        } catch (e) {
+          msg.className = "form-msg ok";
+          msg.textContent =
+            "Message noted! Connect the Python backend to enable DB storage & WhatsApp forwarding.";
+        }
+        btn.disabled = false;
+        btn.textContent = "Send Message →";
+      }
+
+      /* CHARTS */
+      window.addEventListener("load", () => {
+        const fnt = {
+          color: "#588157",
+          font: { size: 10, family: "Segoe UI" },
+        };
+        const grd = { color: "rgba(88,129,87,.12)" };
+
+        new Chart(document.getElementById("radarChart"), {
+          type: "radar",
+          data: {
+            labels: [
+              "Python",
+              "Data Analytics",
+              "ML/AI",
+              "FastAPI",
+              "SQL/DB",
+              "DSA",
+              "Visualization",
+            ],
+            datasets: [
+              {
+                label: "Proficiency",
+                data: [92, 88, 76, 82, 78, 72, 85],
+                backgroundColor: "rgba(88,129,87,.15)",
+                borderColor: "#588157",
+                pointBackgroundColor: "#3a5a40",
+                pointBorderColor: "#3a5a40",
+                borderWidth: 2,
+                pointRadius: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              r: {
+                ticks: { display: false },
+                grid: { color: "rgba(88,129,87,.15)" },
+                angleLines: { color: "rgba(88,129,87,.15)" },
+                pointLabels: { color: "#3a5a40", font: { size: 10 } },
+              },
+            },
+          },
+        });
+
+        new Chart(document.getElementById("donutChart"), {
+          type: "doughnut",
+          data: {
+            labels: ["Python", "C++", "SQL", "HTML/CSS", "JavaScript"],
+            datasets: [
+              {
+                data: [60, 18, 12, 6, 4],
+                backgroundColor: [
+                  "#3a5a40",
+                  "#588157",
+                  "#a3b18a",
+                  "#8a7240",
+                  "#3d6b72",
+                ],
+                borderWidth: 2,
+                borderColor: "#fff",
+                hoverOffset: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            cutout: "65%",
+            plugins: {
+              legend: {
+                position: "right",
+                labels: {
+                  color: "#3a5a40",
+                  font: { size: 10 },
+                  boxWidth: 10,
+                  padding: 8,
+                },
+              },
+            },
+          },
+        });
+
+        new Chart(document.getElementById("leetBarChart"), {
+          type: "bar",
+          data: {
+            labels: [
+              "Array",
+              "Two Ptr",
+              "Linked List",
+              "Bin Search",
+              "Hash Table",
+              "Math",
+              "String",
+              "Sorting",
+              "Sliding Win",
+              "Matrix",
+              "Stack",
+              "Sim",
+              "DB",
+              "Greedy",
+              "Bit Man",
+              "Recursion",
+              "DP",
+              "Backtrack",
+              "D&C",
+              "Mono Stack",
+            ],
+            datasets: [
+              {
+                label: "Fundamental",
+                data: [
+                  70, 26, 23, 0, 0, 0, 16, 15, 0, 11, 8, 8, 0, 0, 0, 0, 0, 0, 0,
+                  0,
+                ],
+                backgroundColor: "rgba(88,129,87,.65)",
+                borderRadius: 3,
+                stack: "s",
+              },
+              {
+                label: "Intermediate",
+                data: [
+                  0, 0, 0, 24, 21, 20, 0, 0, 10, 0, 0, 0, 9, 8, 7, 6, 0, 0, 0,
+                  0,
+                ],
+                backgroundColor: "rgba(138,114,64,.65)",
+                borderRadius: 3,
+                stack: "s",
+              },
+              {
+                label: "Advanced",
+                data: [
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 4, 4, 3,
+                ],
+                backgroundColor: "rgba(90,42,58,.65)",
+                borderRadius: 3,
+                stack: "s",
+              },
+            ],
+          },
+          options: {
+            indexAxis: "y",
+            responsive: true,
+            plugins: {
+              legend: {
+                labels: { color: "#3a5a40", font: { size: 9 }, boxWidth: 10 },
+              },
+            },
+            scales: {
+              x: { ticks: fnt, grid: grd, stacked: true },
+              y: {
+                ticks: { ...fnt, font: { size: 9 } },
+                grid: { display: false },
+                stacked: true,
+              },
+            },
+          },
+        });
+      });
+    </script>
+  </body>
 </html>
