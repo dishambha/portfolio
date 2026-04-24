@@ -7,15 +7,15 @@
 
 SETUP:
   pip install fastapi uvicorn django djangorestframework
-              python-dotenv : The term 'python-dotenv' is not recognized as the name of a cmdlet, function, script file, or 
-operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try 
+              python-dotenv : The term 'python-dotenv' is not recognized as the name of a cmdlet, function, script file, or
+operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try
 again.
 At line:2 char:15
 +               python-dotenv twilio aiosmtplib pydantic
 +               ~~~~~~~~~~~~~
     + CategoryInfo          : ObjectNotFound: (python-dotenv:String) [], CommandNotFoundException
     + FullyQualifiedErrorId : CommandNotFoundException
- 
+
 
 FOLDER STRUCTURE:
   portfolio_backend/
@@ -108,24 +108,28 @@ from datetime import datetime
 load_dotenv()  # loads .env file
 
 # ── Django ORM setup (runs before first import of models) ─────────────────────
-import django_setup; django_setup.setup()
-from models import ContactMessage          # Django ORM model
+import django_setup
+
+django_setup.setup()
+from models import ContactMessage  # Django ORM model
 
 # ── FastAPI app ────────────────────────────────────────────────────────────────
 app = FastAPI(title="Dishambha Portfolio API", version="2.0.0", docs_url="/api/docs")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # restrict to your domain in production
+    allow_origins=["*"],  # restrict to your domain in production
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+
 @app.get("/", response_class=FileResponse)
 async def serve_portfolio():
     return FileResponse("static/index.html")
+
 
 # ── ENV VARIABLES  (.env file) ─────────────────────────────────────────────────
 # Create a .env file with these values:
@@ -142,26 +146,28 @@ async def serve_portfolio():
 #
 # ADMIN_SECRET=your_secret_key_for_admin_routes
 
-SMTP_HOST  = os.getenv("SMTP_HOST", "smtp.gmail.com")
-SMTP_PORT  = int(os.getenv("SMTP_PORT", 587))
-SMTP_USER  = os.getenv("SMTP_USER", "")
-SMTP_PASS  = os.getenv("SMTP_PASS", "")
-MY_EMAIL   = "dishambhaawasthi0131@gmail.com"
+SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
+SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
+SMTP_USER = os.getenv("SMTP_USER", "")
+SMTP_PASS = os.getenv("SMTP_PASS", "")
+MY_EMAIL = "dishambhaawasthi0131@gmail.com"
 
-TWILIO_SID   = os.getenv("TWILIO_SID", "")
+TWILIO_SID = os.getenv("TWILIO_SID", "")
 TWILIO_TOKEN = os.getenv("TWILIO_TOKEN", "")
-TWILIO_FROM  = os.getenv("TWILIO_WHATSAPP_FROM", "whatsapp:+14155238886")
-MY_WA        = os.getenv("MY_WHATSAPP", "whatsapp:+919369879498")
+TWILIO_FROM = os.getenv("TWILIO_WHATSAPP_FROM", "whatsapp:+14155238886")
+MY_WA = os.getenv("MY_WHATSAPP", "whatsapp:+919369879498")
 
 ADMIN_SECRET = os.getenv("ADMIN_SECRET", "change_me_in_prod")
 
+
 # ── Pydantic schema ────────────────────────────────────────────────────────────
 class ContactIn(BaseModel):
-    name:    str
-    email:   EmailStr
-    type:    str = "query"
+    name: str
+    email: EmailStr
+    type: str = "query"
     subject: str = ""
     message: str
+
 
 # ── WhatsApp via Twilio ────────────────────────────────────────────────────────
 async def send_whatsapp(body: str):
@@ -171,6 +177,7 @@ async def send_whatsapp(body: str):
         return False
     try:
         from twilio.rest import Client
+
         client = Client(TWILIO_SID, TWILIO_TOKEN)
         msg = client.messages.create(body=body, from_=TWILIO_FROM, to=MY_WA)
         print(f"[WhatsApp] Sent: {msg.sid}")
@@ -178,6 +185,7 @@ async def send_whatsapp(body: str):
     except Exception as e:
         print(f"[WhatsApp] Error: {e}")
         return False
+
 
 # ── Email via aiosmtplib ───────────────────────────────────────────────────────
 async def send_email(name: str, email: str, msg_type: str, subject: str, message: str):
@@ -188,21 +196,23 @@ async def send_email(name: str, email: str, msg_type: str, subject: str, message
     try:
         mail = MIMEMultipart("alternative")
         mail["Subject"] = f"[Portfolio] {msg_type.upper()}: {subject or 'New Contact'}"
-        mail["From"]    = SMTP_USER
-        mail["To"]      = MY_EMAIL
+        mail["From"] = SMTP_USER
+        mail["To"] = MY_EMAIL
         body = f"""
 New message from your portfolio!
 
 From    : {name} <{email}>
 Type    : {msg_type}
 Subject : {subject}
-Time    : {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}
+Time    : {datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")}
 
 Message:
 {message}
         """.strip()
         mail.attach(MIMEText(body, "plain"))
-        async with aiosmtplib.SMTP(hostname=SMTP_HOST, port=SMTP_PORT, start_tls=True) as smtp:
+        async with aiosmtplib.SMTP(
+            hostname=SMTP_HOST, port=SMTP_PORT, start_tls=True
+        ) as smtp:
             await smtp.login(SMTP_USER, SMTP_PASS)
             await smtp.send_message(mail)
         print("[Email] Sent successfully.")
@@ -211,6 +221,7 @@ Message:
         print(f"[Email] Error: {e}")
         return False
 
+
 # ── API Routes ─────────────────────────────────────────────────────────────────
 @app.post("/api/contact")
 async def contact(data: ContactIn, request: Request):
@@ -218,12 +229,12 @@ async def contact(data: ContactIn, request: Request):
     # 1. Save to database using Django ORM
     msg_obj = await asyncio.to_thread(
         ContactMessage.objects.create,
-        name       = data.name,
-        email      = data.email,
-        msg_type   = data.type,
-        subject    = data.subject,
-        message    = data.message,
-        ip_address = request.client.host,
+        name=data.name,
+        email=data.email,
+        msg_type=data.type,
+        subject=data.subject,
+        message=data.message,
+        ip_address=request.client.host,
     )
 
     # 2. Fire notifications concurrently (non-blocking)
@@ -241,44 +252,50 @@ async def contact(data: ContactIn, request: Request):
 
     # 3. Update notification flags
     await asyncio.to_thread(
-        ContactMessage.objects.filter(pk=msg_obj.pk).update,
-        notified_wa=wa_ok, notified_em=em_ok
+        lambda: ContactMessage.objects.filter(pk=msg_obj.pk).update(
+            notified_wa=wa_ok, notified_em=em_ok
+        )
     )
 
     return {
-        "status":  "success",
+        "status": "success",
         "message": "Thanks! I'll get back to you within 24 hours.",
-        "id":      msg_obj.pk,
+        "id": msg_obj.pk,
     }
+
 
 @app.get("/api/portfolio")
 async def get_portfolio():
-    return JSONResponse({
-        "name":     "Dishambha Awasthi",
-        "email":    MY_EMAIL,
-        "phone":    "+91 9369879498",
-        "github":   "https://github.com/dishambha",
-        "linkedin": "https://www.linkedin.com/in/dishambha-awasthi",
-        "leetcode": "https://leetcode.com/u/dishambha_awasthi/",
-    })
+    return JSONResponse(
+        {
+            "name": "Dishambha Awasthi",
+            "email": MY_EMAIL,
+            "phone": "+91 9369879498",
+            "github": "https://github.com/dishambha",
+            "linkedin": "https://www.linkedin.com/in/dishambha-awasthi",
+            "leetcode": "https://leetcode.com/u/dishambha_awasthi/",
+        }
+    )
+
 
 @app.get("/api/messages")
 async def get_messages(secret: str = ""):
     """Admin endpoint – protect with secret key."""
     if secret != ADMIN_SECRET:
         raise HTTPException(status_code=403, detail="Forbidden")
-    msgs = await asyncio.to_thread(
-        lambda: list(ContactMessage.objects.values())
-    )
+    msgs = await asyncio.to_thread(lambda: list(ContactMessage.objects.values()))
     return msgs
+
 
 @app.get("/health")
 async def health():
     return {"status": "ok", "time": datetime.utcnow().isoformat()}
 
+
 # ── Run ────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
 
 # ════════════════════════════════════════════════
