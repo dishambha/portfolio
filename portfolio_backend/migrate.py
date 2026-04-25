@@ -3,35 +3,42 @@ Migration setup script - initializes the database tables using Django ORM.
 """
 
 import os
-
 import django_setup
 
 django_setup.setup()
 
 from django.db import connection
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
 from models import ContactMessage
 
 print("Setting up database...")
 
-# Create tables using Django's schema editor
+# Create all required tables
 with connection.schema_editor() as schema_editor:
-    if (
-        not connection.introspection.table_names()
-        or "portfolio_contactmessage" not in connection.introspection.table_names()
-    ):
+    # Create contenttypes table first (required by Django)
+    if "django_content_type" not in connection.introspection.table_names():
+        schema_editor.create_model(ContentType)
+        print("✓ Created ContentType table")
+
+    # Create auth table if needed
+    if "auth_user" not in connection.introspection.table_names():
+        schema_editor.create_model(User)
+        print("✓ Created User table")
+
+    # Create ContactMessage table
+    if "portfolio_contactmessage" not in connection.introspection.table_names():
         schema_editor.create_model(ContactMessage)
         print("✓ Created ContactMessage table")
     else:
-        print("✓ Table already exists")
-    print("✓ ContactMessage table created successfully!")
+        print("✓ ContactMessage table already exists")
 
 print("✓ Database setup complete!")
 
 # Verify the table exists
-with connection.cursor() as cursor:
-    cursor.execute(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='portfolio_contactmessage';"
-    )
-    result = cursor.fetchone()
-    if result:
-        print(f"✓ Confirmed: Table 'portfolio_contactmessage' exists")
+tables = connection.introspection.table_names()
+if "portfolio_contactmessage" in tables:
+    print(f"✓ Confirmed: All required tables exist ({len(tables)} tables)")
+else:
+    print("✗ ERROR: ContactMessage table was not created!")
+    exit(1)
