@@ -1,44 +1,52 @@
 """
 Migration setup script - initializes the database tables using Django ORM.
+Runs on every app start to ensure tables exist.
 """
 
 import os
-import django_setup
+import sys
+import traceback
 
-django_setup.setup()
+try:
+    import django_setup
 
-from django.db import connection
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User
-from models import ContactMessage
+    django_setup.setup()
 
-print("Setting up database...")
+    from django.db import connection
+    from django.contrib.contenttypes.models import ContentType
+    from django.contrib.auth.models import User
+    from models import ContactMessage
 
-# Create all required tables
-with connection.schema_editor() as schema_editor:
-    # Create contenttypes table first (required by Django)
-    if "django_content_type" not in connection.introspection.table_names():
-        schema_editor.create_model(ContentType)
-        print("✓ Created ContentType table")
+    print("[Migration] Starting database setup...")
 
-    # Create auth table if needed
-    if "auth_user" not in connection.introspection.table_names():
-        schema_editor.create_model(User)
-        print("✓ Created User table")
+    # Create all required tables
+    with connection.schema_editor() as schema_editor:
+        # Create contenttypes table first (required by Django)
+        if "django_content_type" not in connection.introspection.table_names():
+            schema_editor.create_model(ContentType)
+            print("[Migration] ✓ Created ContentType table")
 
-    # Create ContactMessage table
-    if "portfolio_contactmessage" not in connection.introspection.table_names():
-        schema_editor.create_model(ContactMessage)
-        print("✓ Created ContactMessage table")
+        # Create auth table if needed
+        if "auth_user" not in connection.introspection.table_names():
+            schema_editor.create_model(User)
+            print("[Migration] ✓ Created User table")
+
+        # Create ContactMessage table
+        if "portfolio_contactmessage" not in connection.introspection.table_names():
+            schema_editor.create_model(ContactMessage)
+            print("[Migration] ✓ Created ContactMessage table")
+        else:
+            print("[Migration] ✓ ContactMessage table already exists")
+
+    # Verify the table exists
+    tables = connection.introspection.table_names()
+    if "portfolio_contactmessage" in tables:
+        print(f"[Migration] ✓ Database setup complete! ({len(tables)} tables)")
     else:
-        print("✓ ContactMessage table already exists")
+        print("[Migration] ✗ ERROR: ContactMessage table was not created!")
+        sys.exit(1)
 
-print("✓ Database setup complete!")
-
-# Verify the table exists
-tables = connection.introspection.table_names()
-if "portfolio_contactmessage" in tables:
-    print(f"✓ Confirmed: All required tables exist ({len(tables)} tables)")
-else:
-    print("✗ ERROR: ContactMessage table was not created!")
-    exit(1)
+except Exception as e:
+    print(f"[Migration] ✗ FATAL ERROR: {e}")
+    traceback.print_exc()
+    sys.exit(1)

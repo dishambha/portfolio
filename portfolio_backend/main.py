@@ -123,6 +123,33 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# ── Ensure database tables exist on startup ────────────────────────────────────
+@app.on_event("startup")
+async def ensure_database():
+    """Safety check: ensure database tables exist before serving requests."""
+    try:
+        from django.db import connection
+        from django.contrib.contenttypes.models import ContentType
+        from django.contrib.auth.models import User
+
+        tables = connection.introspection.table_names()
+        if "portfolio_contactmessage" not in tables:
+            print("[Startup] Database tables missing! Creating...")
+            with connection.schema_editor() as schema_editor:
+                if "django_content_type" not in tables:
+                    schema_editor.create_model(ContentType)
+                if "auth_user" not in tables:
+                    schema_editor.create_model(User)
+                schema_editor.create_model(ContactMessage)
+            print("[Startup] ✓ Database tables created successfully")
+        else:
+            print("[Startup] ✓ Database tables already exist")
+    except Exception as e:
+        print(f"[Startup] ✗ Error ensuring database: {e}")
+        raise
+
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
