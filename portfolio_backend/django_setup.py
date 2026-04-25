@@ -6,6 +6,11 @@ import sys
 
 def setup():
     if not settings.configured:
+        # Use absolute path for database
+        db_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "portfolio.db"
+        )
+
         settings.configure(
             DEBUG=True,
             INSTALLED_APPS=[
@@ -15,7 +20,7 @@ def setup():
             DATABASES={
                 "default": {
                     "ENGINE": "django.db.backends.sqlite3",
-                    "NAME": "portfolio.db",
+                    "NAME": db_path,
                 }
             },
             DEFAULT_AUTO_FIELD="django.db.models.BigAutoField",

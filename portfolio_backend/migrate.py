@@ -4,8 +4,6 @@ Migration setup script - initializes the database tables using Django ORM.
 
 import os
 
-os.environ.setdefault("DJANGO_DB_PATH", "portfolio.db")
-
 import django_setup
 
 django_setup.setup()
