@@ -1,97 +1,3 @@
-"""
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- Dishambha Awasthi – Portfolio Backend
- Architecture: Django ORM + Models (database layer)
-               FastAPI (API layer + WhatsApp/Email)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-SETUP:
-  pip install fastapi uvicorn django djangorestframework
-              python-dotenv : The term 'python-dotenv' is not recognized as the name of a cmdlet, function, script file, or
-operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try
-again.
-At line:2 char:15
-+               python-dotenv twilio aiosmtplib pydantic
-+               ~~~~~~~~~~~~~
-    + CategoryInfo          : ObjectNotFound: (python-dotenv:String) [], CommandNotFoundException
-    + FullyQualifiedErrorId : CommandNotFoundException
-
-
-FOLDER STRUCTURE:
-  portfolio_backend/
-  ├── main.py            ← FastAPI entry point (this file)
-  ├── .env               ← secrets (never commit!)
-  ├── django_setup.py    ← Django bootstrap
-  ├── models.py          ← Django ORM models
-  ├── static/
-  │   └── index.html     ← Your portfolio HTML
-  └── manage.py          ← Django management commands
-
-RUN:
-  python manage.py migrate   # create DB tables
-  uvicorn main:app --reload  # start server
-"""
-
-# ════════════════════════════════════════════════
-# 1.  django_setup.py  – bootstrap Django ORM
-# ════════════════════════════════════════════════
-"""
-# django_setup.py
-import django
-from django.conf import settings
-import os
-
-def setup():
-    if not settings.configured:
-        settings.configure(
-            INSTALLED_APPS=["django.contrib.contenttypes", "django.contrib.auth", "portfolio"],
-            DATABASES={
-                "default": {
-                    "ENGINE": "django.db.backends.sqlite3",
-                    "NAME": "portfolio.db",          # swap for PostgreSQL in prod
-                }
-            },
-            DEFAULT_AUTO_FIELD="django.db.models.BigAutoField",
-        )
-        django.setup()
-"""
-
-# ════════════════════════════════════════════════
-# 2.  models.py  – Django ORM models (saved to DB)
-# ════════════════════════════════════════════════
-"""
-# models.py  (place inside a Django app called 'portfolio')
-from django.db import models
-
-class ContactMessage(models.Model):
-    MESSAGE_TYPES = [
-        ("opportunity", "Job Opportunity"),
-        ("project",     "Project Collaboration"),
-        ("query",       "General Query"),
-        ("review",      "Review / Feedback"),
-        ("other",       "Other"),
-    ]
-    name        = models.CharField(max_length=120)
-    email       = models.EmailField()
-    msg_type    = models.CharField(max_length=20, choices=MESSAGE_TYPES, default="query")
-    subject     = models.CharField(max_length=200, blank=True)
-    message     = models.TextField()
-    ip_address  = models.GenericIPAddressField(null=True, blank=True)
-    created_at  = models.DateTimeField(auto_now_add=True)
-    notified_wa = models.BooleanField(default=False)  # WhatsApp sent?
-    notified_em = models.BooleanField(default=False)  # Email sent?
-
-    class Meta:
-        ordering = ["-created_at"]
-        app_label = "portfolio"
-
-    def __str__(self):
-        return f"[{self.msg_type}] {self.name} – {self.subject[:40]}"
-"""
-
-# ════════════════════════════════════════════════
-# 3.  main.py  – FastAPI application
-# ════════════════════════════════════════════════
 
 import os, asyncio
 from fastapi import FastAPI, HTTPException, Request, Depends
@@ -129,28 +35,32 @@ app.add_middleware(
 async def ensure_database():
     """Safety check: ensure database tables exist before serving requests."""
     try:
-        from django.db import connection
-        from django.contrib.contenttypes.models import ContentType
-        from django.contrib.auth.models import User
-
-        tables = connection.introspection.table_names()
-        if "portfolio_contactmessage" not in tables:
-            print("[Startup] Database tables missing! Creating...")
-            with connection.schema_editor() as schema_editor:
-                if "django_content_type" not in tables:
-                    schema_editor.create_model(ContentType)
-                if "auth_user" not in tables:
-                    schema_editor.create_model(User)
-                schema_editor.create_model(ContactMessage)
-            print("[Startup] ✓ Database tables created successfully")
-        else:
-            print("[Startup] ✓ Database tables already exist")
+        # Run Django DB operations in a thread (Django requires sync context)
+        await asyncio.to_thread(_init_database)
+        print("[Startup] ✓ Database ready")
     except Exception as e:
         print(f"[Startup] ✗ Error ensuring database: {e}")
         raise
 
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+def _init_database():
+    """Initialize database tables (synchronous function)."""
+    from django.db import connection
+    from django.contrib.contenttypes.models import ContentType
+    from django.contrib.auth.models import User
+
+    tables = connection.introspection.table_names()
+    if "portfolio_contactmessage" not in tables:
+        print("[Startup] Database tables missing! Creating...")
+        with connection.schema_editor() as schema_editor:
+            if "django_content_type" not in tables:
+                schema_editor.create_model(ContentType)
+            if "auth_user" not in tables:
+                schema_editor.create_model(User)
+            schema_editor.create_model(ContactMessage)
+        print("[Startup] ✓ Database tables created successfully")
+    else:
+        print("[Startup] ✓ ContactMessage table already exists")
 
 
 @app.get("/", response_class=FileResponse)
@@ -158,20 +68,6 @@ async def serve_portfolio():
     return FileResponse("static/index.html")
 
 
-# ── ENV VARIABLES  (.env file) ─────────────────────────────────────────────────
-# Create a .env file with these values:
-#
-# SMTP_HOST=smtp.gmail.com
-# SMTP_PORT=587
-# SMTP_USER=dishambhaawasthi0131@gmail.com
-# SMTP_PASS=your_16char_gmail_app_password
-#
-# TWILIO_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# TWILIO_TOKEN=your_auth_token
-# TWILIO_WHATSAPP_FROM=whatsapp:+14155238886  (Twilio sandbox number)
-# MY_WHATSAPP=whatsapp:+919369879498
-#
-# ADMIN_SECRET=your_secret_key_for_admin_routes
 
 SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
@@ -323,36 +219,5 @@ async def health():
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
 
-# ════════════════════════════════════════════════
-# 4.  .env template (create this file manually)
-# ════════════════════════════════════════════════
-"""
-# .env
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=dishambhaawasthi0131@gmail.com
-SMTP_PASS=xxxx_xxxx_xxxx_xxxx   # Gmail App Password (not your login password!)
-
-TWILIO_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-TWILIO_TOKEN=your_auth_token
-TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
-MY_WHATSAPP=whatsapp:+919369879498
-
-ADMIN_SECRET=make_this_random_and_long
-"""
-
-# ════════════════════════════════════════════════
-# 5.  requirements.txt
-# ════════════════════════════════════════════════
-"""
-fastapi==0.111.0
-uvicorn[standard]==0.29.0
-django==5.0.6
-djangorestframework==3.15.1
-python-dotenv==1.0.1
-twilio==9.0.5
-aiosmtplib==3.0.1
-pydantic[email]==2.7.1
-"""
