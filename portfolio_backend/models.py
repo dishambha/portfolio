@@ -21,7 +21,7 @@ class ContactMessage(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
-        app_label = "contenttypes"
+        app_label = "portfolio"
 
     def __str__(self):
         return f"[{self.msg_type}] {self.name} – {self.subject[:40]}"
