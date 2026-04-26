@@ -1,4 +1,3 @@
-
 import os, asyncio
 from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
@@ -65,8 +64,8 @@ def _init_database():
 
 @app.get("/", response_class=FileResponse)
 async def serve_portfolio():
-    return FileResponse("static/index.html")
-
+    static_dir = os.path.join(os.path.dirname(__file__), "static", "index.html")
+    return FileResponse(static_dir)
 
 
 SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
@@ -220,4 +219,3 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
-
